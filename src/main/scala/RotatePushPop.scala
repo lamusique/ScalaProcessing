@@ -41,15 +41,15 @@ class RotatePushPop extends PApplet {
       fill(gray)
       rotateY(angle + offset * i)
       rotateX(angle / 2 + offset * i)
-      box(200);
-      popMatrix();
+      box(200)
+      popMatrix()
     })
 
     angle += 0.01f
   }
 
   override def settings() {
-    size(640, 360, PConstants.P3D);
+    size(640, 360, PConstants.P3D)
   }
 }
 
@@ -59,9 +59,9 @@ object RotatePushPop {
     // This specifies the class to be instantiated.
     val appletArgs = Array("RotatePushPop")
     if (args != null) {
-      PApplet.main(PApplet.concat(appletArgs, args));
+      PApplet.main(PApplet.concat(appletArgs, args))
     } else {
-      PApplet.main(appletArgs);
+      PApplet.main(appletArgs)
     }
   }
 
