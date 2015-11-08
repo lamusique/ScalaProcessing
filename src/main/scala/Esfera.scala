@@ -42,6 +42,7 @@ class Esfera extends PApplet {
     noStroke()
     sphere(radio)
 
+
     lista.foreach(pelo => {
       pelo.dibujar()
     })
@@ -53,17 +54,6 @@ class Esfera extends PApplet {
     var phi = random(PConstants.TWO_PI);
     var largo = random(1.15f, 1.2f);
     var theta = PApplet.asin(z / radio);
-
-    //this() = {
-    {
-      // what's wrong with a constructor here
-      z = random(-radio, radio);
-      phi = random(PConstants.TWO_PI);
-      largo = random(1.15f, 1.2f);
-      theta = PApplet.asin(z / radio);
-    }
-
-    //}
 
     def dibujar() {
 
@@ -84,8 +74,9 @@ class Esfera extends PApplet {
       val yb = yo * largo;
       val zb = zo * largo;
 
-      strokeWeight(1);
-      beginShape(PConstants.LINES);
+
+      strokeWeight(1)
+      beginShape(PConstants.LINE);
       stroke(0);
       vertex(x, y, z);
       stroke(200, 150);
