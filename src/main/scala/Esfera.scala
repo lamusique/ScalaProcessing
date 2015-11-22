@@ -1,27 +1,18 @@
 import processing.core.{PConstants, PApplet}
 
-/**
- * Esfera
- * by David Pena.  
- *
- * Distribucion aleatoria uniforme sobre la superficie de una esfera. 
- */
 class Esfera extends PApplet {
 
-  //val radio = 200f
   val radio = height / 3.5f
-
   val cuantos = 16000
 
   var lista = (0 to cuantos).map { i => {
     new Pelo()
   }}
 
-  var rx = 0f;
-  var ry = 0f;
+  var rx = 0f
+  var ry = 0f
 
   override def setup() {
-    //val radio = height / 3.5
     noiseDetail(3)
   }
 
@@ -32,8 +23,8 @@ class Esfera extends PApplet {
   override def draw() {
     background(0)
 
-    val rxp = (mouseX - (width / 2)) * 0.005f
-    val ryp = (mouseY - (height / 2)) * 0.005f
+    val rxp = (mouseX - (width / 2f)) * 0.005f
+    val ryp = (mouseY - (height / 2f)) * 0.005f
     rx = rx * 0.9f + rxp * 0.1f
     ry = ry * 0.9f + ryp * 0.1f
 
@@ -80,12 +71,13 @@ class Esfera extends PApplet {
 
 
       strokeWeight(1)
-      beginShape(PConstants.LINE);
+      beginShape(PConstants.LINES);
       stroke(0);
       vertex(x, y, z);
       stroke(200, 150);
       vertex(xb, yb, zb);
       endShape();
+
     }
   }
 
