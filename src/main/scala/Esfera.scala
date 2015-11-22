@@ -6,20 +6,22 @@ import processing.core.{PConstants, PApplet}
  *
  * Distribucion aleatoria uniforme sobre la superficie de una esfera. 
  */
-
 class Esfera extends PApplet {
 
+  //val radio = 200f
+  val radio = height / 3.5f
+
   val cuantos = 16000
-  val lista = (0 to cuantos).map { i => {
+
+  var lista = (0 to cuantos).map { i => {
     new Pelo()
   }}
 
-  val radio = 200f;
   var rx = 0f;
   var ry = 0f;
 
   override def setup() {
-    val radio = height / 3.5
+    //val radio = height / 3.5
     noiseDetail(3)
   }
 
@@ -49,7 +51,9 @@ class Esfera extends PApplet {
 
   }
 
+
   class Pelo {
+
     var z = random(-radio, radio);
     var phi = random(PConstants.TWO_PI);
     var largo = random(1.15f, 1.2f);
