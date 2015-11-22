@@ -2,7 +2,7 @@ import processing.core.{PConstants, PApplet}
 
 class Esfera extends PApplet {
 
-  val radio = height / 3.5f
+  var radio = 200f
   val cuantos = 16000
 
   var lista = (0 to cuantos).map { i => {
@@ -13,6 +13,7 @@ class Esfera extends PApplet {
   var ry = 0f
 
   override def setup() {
+    radio = height / 3.5f
     noiseDetail(3)
   }
 
