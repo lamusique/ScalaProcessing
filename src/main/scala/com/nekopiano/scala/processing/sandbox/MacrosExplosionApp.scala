@@ -1,7 +1,6 @@
 package com.nekopiano.scala.processing.sandbox
 
-import com.nekopiano.scala.processing.{ScalaPVector, ScalaPApplet}
-import processing.core.{PConstants, PApplet}
+import com.nekopiano.scala.processing.{ScalaPConstants, ScalaPVector, ScalaPApplet}
 
 import scala.util.Random
 
@@ -14,8 +13,9 @@ class MacrosExplosionApp extends ScalaPApplet {
   val rand = new Random()
 
   override def settings: Unit = {
-    size(1024, 650, PConstants.P2D)
+    size(1024, 650, ScalaPConstants.P2D)
   }
+
   override def setup: Unit = {
   }
 
@@ -23,6 +23,7 @@ class MacrosExplosionApp extends ScalaPApplet {
   val NUMBER_OF_SIMULTANEOUS_EXPLOSIONS = 25
 
   var explosions = Set.empty[Explosion]
+
   override def draw: Unit = {
     background(0)
 
@@ -32,34 +33,35 @@ class MacrosExplosionApp extends ScalaPApplet {
       explosions = explosions ++ appendingExplosions
     }
 
-    //explosion.
     explosions = explosions.filterNot(_.isVanished())
     explosions.foreach(_.explode())
 
     fill(150)
-    text("The number of explosions = " + explosions.size, width/3, height - 20)
+    text("The number of explosions = " + explosions.size, width / 3, height - 20)
   }
 
 }
+
 object MacrosExplosionApp {
   val BOOTING_CLASS_NAME = this.getClass.getName.dropRight(1)
+
   def main(args: Array[String]) {
     // This specifies the class to be instantiated.
     val appletArgs = Array(BOOTING_CLASS_NAME)
     if (args != null) {
-      PApplet.main(appletArgs ++ args)
+      ScalaPApplet.main(appletArgs ++ args)
     } else {
-      PApplet.main(appletArgs)
+      ScalaPApplet.main(appletArgs)
     }
   }
 }
 
-class Explosion(val x:Float, val y:Float, val size:Float = 0, var delayFrames:Int = 0)(implicit val sPApplet: ScalaPApplet) {
+class Explosion(val x: Float, val y: Float, val size: Float = 0, var delayFrames: Int = 0)(implicit val sPApplet: ScalaPApplet) {
 
   import sPApplet._
 
   val vector = ScalaPVector(x, y)
-  val SHIFT_RANGE = size/4
+  val SHIFT_RANGE = size / 4
   val vanishingPoint = ScalaPVector(random(x - SHIFT_RANGE, x + SHIFT_RANGE), random(y - SHIFT_RANGE, y + SHIFT_RANGE))
   val COLOR = color(255, 204, 0)
 
@@ -67,18 +69,18 @@ class Explosion(val x:Float, val y:Float, val size:Float = 0, var delayFrames:In
   var currentSize = 0f
   var vanishingSize = 0f
 
-    def explode(): Unit = {
-      if(isVanished()) return
+  def explode(): Unit = {
+    if (isVanished()) return
 
-      alpha = alpha + 16f
-      noStroke()
-      fill(COLOR, alpha)
-      if (currentSize < size)
-        currentSize = currentSize + 6f
-      ellipse(x, y, currentSize, currentSize)
+    alpha = alpha + 16f
+    noStroke()
+    fill(COLOR, alpha)
+    if (currentSize < size)
+      currentSize = currentSize + 6f
+    ellipse(x, y, currentSize, currentSize)
 
-      if (currentSize > size/4) vanish()
-    }
+    if (currentSize > size / 4) vanish()
+  }
 
   private def vanish(): Unit = {
     fill(0)
@@ -89,8 +91,10 @@ class Explosion(val x:Float, val y:Float, val size:Float = 0, var delayFrames:In
   def isVanished() = vanishingSize > Explosion.SIZE * 1.5
 
 }
+
 object Explosion {
   val SIZE = 50
+
   def apply()(implicit sPApplet: ScalaPApplet) = {
     import sPApplet._
     new Explosion(random(width), random(height), random(SIZE), random(1000).toInt)
