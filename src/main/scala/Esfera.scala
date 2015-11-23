@@ -86,9 +86,9 @@ class Esfera extends PApplet {
 
 object Esfera {
   def main(args: Array[String]) {
-
+    val BOOTING_CLASS_NAME = this.getClass.getName.dropRight(1)
     // This specifies the class to be instantiated.
-    val appletArgs = Array("Esfera")
+    val appletArgs = Array(BOOTING_CLASS_NAME)
     if (args != null) {
       PApplet.main(PApplet.concat(appletArgs, args))
     } else {
