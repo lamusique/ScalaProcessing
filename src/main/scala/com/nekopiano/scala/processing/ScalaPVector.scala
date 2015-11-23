@@ -7,20 +7,9 @@ import processing.core.PVector
  * Created by neko on 2015/11/23.
  */
 //class ScalaPVector(val sx:Float, val sy:Float, val sz:Float) extends PVector {
-class ScalaPVector(val sx:Float, val sy:Float, val sz:Float) extends PVector {
+case class ScalaPVector(var x:Float, var y:Float, var z:Float) {
+  private val pVector = new PVector(x, y, z)
 
-  super.set(sx, sy, sz)
+  def angleWith(vector: ScalaPVector):Float = PVector.angleBetween(this.pVector, vector.pVector)
 
-  def this(sx:Float, sy:Float) = this(sx, sy, 0)
-
-  // accessors
-  override def x:Float = sx
-  def y:Float = sy
-  def z:Float = sz
- // mutators not allowed
-}
-object ScalaPVector {
-  def apply(x:Float, y:Float) = new ScalaPVector(x, y)
-  def apply(x:Float, y:Float, z:Float) = new ScalaPVector(x, y, z)
-  def unapply(vector:ScalaPVector) = Some((vector.x, vector.y, vector.z))
 }

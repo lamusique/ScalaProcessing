@@ -8,6 +8,10 @@ import processing.core.PApplet
 class ScalaPApplet extends PApplet {
   import processing.core.PApplet._
 
+  def line(start: ScalaPVector, end:ScalaPVector): Unit = {
+    line(start.x, start.y, start.z, end.x, end.y, end.z)
+  }
+
   def box(vector: ScalaPVector): Unit = {
     box(vector.x, vector.y, vector.z)
   }

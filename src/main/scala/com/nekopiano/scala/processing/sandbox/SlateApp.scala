@@ -1,13 +1,13 @@
 package com.nekopiano.scala.processing.sandbox
 
-import com.nekopiano.scala.processing.ScalaPVector
+import com.nekopiano.scala.processing.{ScalaPApplet, ScalaPVector}
 import processing.core.PApplet
 import processing.core.PConstants._
 
 /**
  * Created by neko on 2015/11/23.
  */
-class SlateApp extends PApplet {
+class SlateApp extends ScalaPApplet {
 
   implicit val p5 = this
   val slates = new Slates()
@@ -26,10 +26,16 @@ class SlateApp extends PApplet {
     val z = mouseY - height
     text("z = "+ z, width/2,height - 50, 0)
 
-    slates.move(0,0,z)
+    slates.move(0, 0, z)
     slates.display()
 
-    line(mouseX,mouseY,0,mouseX,mouseY,-2000)
+    val mouse = ScalaPVector(mouseX, mouseY, 0)
+    val sample = slates.slates.head.position
+    line(mouse, sample)
+    text("angle = " + mouse.angleWith(sample) + sample + mouse, width/2,height - 50, 50)
+
+    line(mouseX, mouseY, 0, mouseX, mouseY, -2000)
+    line(mouseX, mouseY, 0, mouseX + math.sqrt(z).toFloat, mouseY + math.sqrt(z).toFloat, -2000)
   }
 
   override def mousePressed: Unit = {
@@ -57,17 +63,21 @@ object SlateApp {
   }
 }
 
-class Slate(var x:Int, var y:Int, var z:Int)(implicit val p5:PApplet) {
+class Slate(x:Int, y:Int, z:Int)(implicit val p5:PApplet) {
   import p5._
 
-  val position = new ScalaPVector(x, y, z)
-  val size = new ScalaPVector(50, 10, 20)
+  val position = ScalaPVector(x, y, z)
+  val size = ScalaPVector(50, 10, 20)
+
+  def move(x:Int, y:Int, z:Int): Unit ={
+    position.z = z
+  }
 
   def display(): Unit = {
     pushMatrix()
     translate(position.x, position.y, position.z)
     box(size.x, size.y, size.z)
-    text(s"x=$x y=$y z=$z", x, y, z)
+    text(s"$position", 0, size.y * 2, 0)
     popMatrix()
   }
 
@@ -89,7 +99,7 @@ class Slates()(implicit val p5:PApplet) {
 
   def move(x:Int, y:Int, z:Int): Unit ={
     val z = mouseY - height
-    slates.foreach(_.z = z)
+    slates.foreach(_.move(x, y, z))
   }
   def display(): Unit ={
     slates.foreach(_.display())
