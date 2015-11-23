@@ -1,14 +1,12 @@
 package com.nekopiano.scala.processing
 
-import processing.core.{PConstants, PApplet}
-
 /**
  * Created by neko on 2015/11/23.
  */
-class ScalaProcessingSkeleton extends PApplet {
+class ScalaProcessingSkeleton extends ScalaPApplet {
 
   override def settings: Unit = {
-    size(1024, 768, PConstants.P3D)
+    size(1024, 768, ScalaPConstants.P3D)
   }
   override def setup: Unit = {
 
@@ -33,9 +31,9 @@ object ScalaProcessingSkeleton {
     // This specifies the class to be instantiated.
     val appletArgs = Array(BOOTING_CLASS_NAME)
     if (args != null) {
-      PApplet.main(PApplet.concat(appletArgs, args))
+      ScalaPApplet.main(appletArgs ++ args)
     } else {
-      PApplet.main(appletArgs)
+      ScalaPApplet.main(appletArgs)
     }
   }
 }
