@@ -1,12 +1,12 @@
 package com.nekopiano.scala.processing.sandbox
 
-import com.nekopiano.scala.processing.{ScalaPVector, ScalaPApplet}
+import processing.core.{PVector, PApplet}
 import processing.core.PConstants._
 
 /**
  * Created by neko on 2015/11/23.
  */
-class SlateApp extends ScalaPApplet {
+class SlateApp extends PApplet {
 
   implicit val p5 = this
   val slates = new Slates()
@@ -15,15 +15,20 @@ class SlateApp extends ScalaPApplet {
     size(1024, 768, P3D)
   }
   override def setup: Unit = {
+    // Here at the beginning you get the window size really
+    val z = mouseY - height
+    slates.slates = Seq(new Slate(0,0,z), new Slate(width/8*3, height/8*3, z), new Slate(width/8*6, height/8*6, z))
 
   }
   override def draw: Unit = {
-    background(200)
+    background(180)
     val z = mouseY - height
     text("z = "+ z, width/2,height - 50, 0)
 
     slates.move(0,0,z)
     slates.display()
+
+    line(mouseX,mouseY,0,mouseX,mouseY,-2000)
   }
 
   override def mousePressed: Unit = {
@@ -44,34 +49,39 @@ object SlateApp {
     // This specifies the class to be instantiated.
     val appletArgs = Array(BOOTING_CLASS_NAME)
     if (args != null) {
-      ScalaPApplet.main(appletArgs ++ args)
+      PApplet.main(appletArgs ++ args)
     } else {
-      ScalaPApplet.main(appletArgs)
+      PApplet.main(appletArgs)
     }
   }
 }
 
-class Slate(var x:Int, var y:Int, var z:Int)(implicit val p5:ScalaPApplet) {
+class Slate(var x:Int, var y:Int, var z:Int)(implicit val p5:PApplet) {
   import p5._
 
-  val position = new ScalaPVector(x, y, z)
-  val size = new ScalaPVector(50, 10, 20)
+  val position = new PVector(x, y, z)
+  val size = new PVector(50, 10, 20)
 
   def display(): Unit = {
+    pushMatrix()
     translate(x, y, z)
-    box(size)
+    box(size.x, size.y, size.z)
+    text(s"x=$x y=$y z=$z", x, y, z)
+    popMatrix()
   }
 
   def isHovered(mouseX:Int, mouseY:Int) = (mouseX > position.x - size.x && mouseX < position.x + size.x &&
       mouseY > position.y - size.y && mouseY < position.y + size.y)
 
 }
-class Slates()(implicit val p5:ScalaPApplet) {
+class Slates()(implicit val p5:PApplet) {
   import p5._
 
   var selected: Option[Slate] = None
 
-  val slates = {
+  // TODO val?
+  var slates = {
+    // TODO
     val z = mouseY - height
     Seq(new Slate(0,0,z), new Slate(width/8*3, height/8*3, z), new Slate(width/8*6, height/8*6, z))
   }
