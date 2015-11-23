@@ -1,4 +1,4 @@
-package com.nekopiano.scala.processing
+package com.nekopiano.scala.processing.sandbox
 
 import processing.core.PApplet
 
