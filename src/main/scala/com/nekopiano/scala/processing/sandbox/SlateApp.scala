@@ -1,6 +1,7 @@
 package com.nekopiano.scala.processing.sandbox
 
-import processing.core.{PVector, PApplet}
+import com.nekopiano.scala.processing.ScalaPVector
+import processing.core.PApplet
 import processing.core.PConstants._
 
 /**
@@ -59,12 +60,12 @@ object SlateApp {
 class Slate(var x:Int, var y:Int, var z:Int)(implicit val p5:PApplet) {
   import p5._
 
-  val position = new PVector(x, y, z)
-  val size = new PVector(50, 10, 20)
+  val position = new ScalaPVector(x, y, z)
+  val size = new ScalaPVector(50, 10, 20)
 
   def display(): Unit = {
     pushMatrix()
-    translate(x, y, z)
+    translate(position.x, position.y, position.z)
     box(size.x, size.y, size.z)
     text(s"x=$x y=$y z=$z", x, y, z)
     popMatrix()
