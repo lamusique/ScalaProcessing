@@ -48,7 +48,6 @@ object PrismApp {
 }
 class TriangularPrism(implicit val sp5:ScalaPApplet) {
   import sp5._
-  //import com.nekopiano.scala.processing.ScalaPConstants._
 
   def display(size:Int):Unit = display(size, size)
   def display(size:Int, depth:Int) {
@@ -56,35 +55,35 @@ class TriangularPrism(implicit val sp5:ScalaPApplet) {
     // double triangles
     displayTriangle(size)
 
-    pushMatrix()
-    translate(0,0,-depth)
-    displayTriangle(size)
-    popMatrix()
+    usingMatrix {
+      translate(0,0,-depth)
+      displayTriangle(size)
+    }
 
     // sides
     val halfSize = size/2
 
     // right side
-    pushMatrix()
-    rotateY(PI/2)
-    rotateX(PI/6)
-    rect(0,0,depth,size)
-    popMatrix()
+    usingMatrix {
+      rotateY(PI/2)
+      rotateX(PI/6)
+      rect(0,0,depth,size)
+    }
 
     // left side
-    pushMatrix()
-    rotateY(-PI/2)
-    rotateX(PI/6)
-    rect(-depth,0,depth,size)
-    popMatrix()
+    usingMatrix {
+      rotateY(-PI/2)
+      rotateX(PI/6)
+      rect(-depth,0,depth,size)
+    }
 
     val triangleHeight = size * sin(PI/3)
     // bottom side
-    pushMatrix()
-    rotateX(PI/2)
-    translate(0,0,-triangleHeight)
-    rect(-halfSize,-depth,size,depth)
-    popMatrix()
+    usingMatrix {
+      rotateX(PI/2)
+      translate(0,0,-triangleHeight)
+      rect(-halfSize,-depth,size,depth)
+    }
 
   }
 

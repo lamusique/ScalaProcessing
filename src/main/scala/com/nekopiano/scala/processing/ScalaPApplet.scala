@@ -8,6 +8,16 @@ import processing.core.PApplet
 class ScalaPApplet extends PApplet with ScalaPConstants {
   import processing.core.PApplet._
 
+  // Utitilies
+
+  // decouple the matrix using loan pattern
+  def usingMatrix(f: => Unit):Unit = {
+    pushMatrix()
+    f
+    popMatrix()
+  }
+
+  // Drawing
   def line(start: ScalaPVector, end:ScalaPVector): Unit = {
     line(start.x, start.y, start.z, end.x, end.y, end.z)
   }
