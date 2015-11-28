@@ -6,7 +6,9 @@ package com.nekopiano.scala.processing
 class ScalaProcessingSkeleton extends ScalaPApplet {
 
   override def settings: Unit = {
-    size(1024, 768, ScalaPConstants.P3D)
+    size(1024, 768, P3D)
+    // the following can't work because here the real window size isn't defined yet.
+    // size(width, height, P3D)
   }
   override def setup: Unit = {
 

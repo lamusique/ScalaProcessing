@@ -5,7 +5,7 @@ import processing.core.PApplet
 /**
  * Created by neko on 2015/11/23.
  */
-class ScalaPApplet extends PApplet {
+class ScalaPApplet extends PApplet with ScalaPConstants {
   import processing.core.PApplet._
 
   def line(start: ScalaPVector, end:ScalaPVector): Unit = {
@@ -15,6 +15,9 @@ class ScalaPApplet extends PApplet {
   def box(vector: ScalaPVector): Unit = {
     box(vector.x, vector.y, vector.z)
   }
+
+  // Mathematics
+  def sin(angle:Float) = PApplet.sin(angle)
 
 }
 object ScalaPApplet {

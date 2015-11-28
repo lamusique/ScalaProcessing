@@ -13,7 +13,7 @@ class MacrosExplosionApp extends ScalaPApplet {
   val rand = new Random()
 
   override def settings: Unit = {
-    size(1024, 650, ScalaPConstants.P2D)
+    size(1024, 650, P2D)
   }
 
   override def setup: Unit = {

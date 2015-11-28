@@ -30,7 +30,7 @@ class SlateApp extends ScalaPApplet {
     slates.display()
 
     val mouse = ScalaPVector(mouseX, mouseY, 0)
-    val sample = slates.slates.head.position
+    val sample = slates.slates(1).position
     line(mouse, sample)
     text("angle = " + mouse.angleWith(sample) + sample + mouse, width/2,height - 50, 50)
 
