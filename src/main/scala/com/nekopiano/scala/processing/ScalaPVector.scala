@@ -10,6 +10,16 @@ import processing.core.PVector
 case class ScalaPVector(var x:Float, var y:Float, var z:Float = 0) {
   private val pVector = new PVector(x, y, z)
 
-  def angleWith(vector: ScalaPVector):Float = PVector.angleBetween(this.pVector, vector.pVector)
+  def setZ(settingZ:Float) = ScalaPVector(this.x, this.y, settingZ)
 
+  // ================
+  // Calculation
+  // ================
+  def angleWith(vector: ScalaPVector):Float = PVector.angleBetween(this.pVector, vector.pVector)
+  def lerp(anotherVector: ScalaPVector, amount:Float = 0.5f):ScalaPVector = ScalaPVector(PVector.lerp(this.pVector, anotherVector.pVector, amount))
+  def distance(anotherVector: ScalaPVector):Float = this.pVector.dist(anotherVector.pVector)
+
+}
+object ScalaPVector {
+  def apply(pVector: PVector):ScalaPVector = ScalaPVector(pVector.x, pVector.y, pVector.z)
 }
