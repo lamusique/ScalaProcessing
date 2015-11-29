@@ -18,12 +18,17 @@ class SlateApp extends ScalaPApplet {
   override def setup: Unit = {
     // Here at the beginning you get the window size really
     slates.slates = Seq(new Slate(0,0,0), new Slate(350, 600, 500), new Slate(910, 200, 850))
+
+    //camera(width/2.0f, height/2.0f, -500, width/2.0f, height/2.0f, 0, 0, 1, 0)
+    //camera(width/2.0f, height/2.0f, (height/2.0f) / tan((PI/3f) / 2.0f), width/2.0f, height/2.0f, 0, 0, 1, 0)
+    camera(width/2.0f, height/2.0f, (height/2.0f) / tan((PI/2f) / 2.0f), width/2.0f, height/2.0f, 0, 0, 1, 0)
   }
   override def draw: Unit = {
     background(180)
 
+
     //usingMatrix {
-      mesh()
+      mesh(-450)
     //}
     val z = mouseY - height
     text("z = "+ z, width/2,height - 50, 0)
@@ -44,7 +49,17 @@ class SlateApp extends ScalaPApplet {
 
     text("O", 0,0,0)
     dottedLine(mouse, origin)
-    dottedLine(mouse, mouse.setZ(-100000))
+    val mouseRear = mouse.setZ(-100000)
+    dottedLine(mouse, mouseRear)
+
+    usingMatrix {
+      //translate(width/2, height/2,0)
+      val rate = (mouseX.toFloat - width/2f)/(width/2f)
+      //rotateY(-radians(38.2f)*rate)
+      rotateY(-PI/6*rate)
+      dottedLine(mouse, mouseRear)
+      text("rate="+rate, mouse.setY(100))
+    }
 
     text("mouse="+mouse, mouse.x, mouse.y)
 
@@ -62,18 +77,20 @@ class SlateApp extends ScalaPApplet {
     slates.selected = None
   }
 
-  def mesh() = {
-    val nbOfHorizontalLines = 10;
-    val nbOfVerticalLines = 20;
+  def mesh(z:Int=0) = {
+    val nbOfHorizontalLines = 10
+    val nbOfVerticalLines = 10
 
-    val distanceBetweenHorizontalLines:Float = height/nbOfHorizontalLines
-    val distanceBetweenVerticalLines:Float = width/nbOfVerticalLines
+    val distanceBetweenHorizontalLines = height/nbOfHorizontalLines
+    val distanceBetweenVerticalLines = width/nbOfVerticalLines
 
-    0 to nbOfHorizontalLines foreach(i => {
-      line(0, i*distanceBetweenHorizontalLines, width, i*distanceBetweenHorizontalLines)
+    0 to distanceBetweenHorizontalLines foreach(i => {
+      val yOfLine = i * nbOfHorizontalLines
+      line(0, yOfLine, z, width, yOfLine, z)
     })
-    0 to nbOfVerticalLines foreach(i => {
-      line (i*distanceBetweenVerticalLines,0,i*distanceBetweenVerticalLines, height);
+    0 to distanceBetweenVerticalLines foreach(i => {
+      val yOfLine = i * nbOfVerticalLines
+      line (yOfLine,0, z, yOfLine, height, z);
     })
 
   }
