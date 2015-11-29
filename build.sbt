@@ -4,6 +4,8 @@ version := "1.0"
 
 scalaVersion := "2.11.7"
 
+libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.11.7"
+
 // http://mvnrepository.com/artifact/org.processing
 //libraryDependencies += "org.processing" % "processing-complete" % "3.0"
 

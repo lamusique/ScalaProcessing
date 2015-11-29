@@ -50,5 +50,6 @@
     <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-windows-amd64:jar" level="project" />
     <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-windows-i586:jar" level="project" />
     <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all-main:2.3.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.scala-lang:scala-reflect:2.11.7:jar" level="project" />
   </component>
 </module>
