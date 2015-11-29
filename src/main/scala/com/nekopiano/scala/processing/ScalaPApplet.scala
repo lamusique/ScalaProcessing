@@ -58,7 +58,8 @@ class ScalaPApplet extends PApplet with ScalaPConstants {
   // ================
   def screen(vector: ScalaPVector) =
     ScalaPVector(screenX(vector.x, vector.y, vector.z), screenY(vector.x, vector.y, vector.z), screenZ(vector.x, vector.y, vector.z))
-
+  def translate(vector: ScalaPVector):Unit = translate(vector.x, vector.y, vector.z)
+  def getMouseVector() = ScalaPVector(mouseX, mouseY)
 
   // ================
   // Viewing
@@ -70,6 +71,10 @@ class ScalaPApplet extends PApplet with ScalaPConstants {
   // ================
   // Drawing
   // ================
+
+  def text(txt:String, vector: ScalaPVector):Unit = {
+    text(txt, vector.x, vector.y, vector.z)
+  }
 
   def point(vector:ScalaPVector): Unit = {
     point(vector.x, vector.y, vector.z)
@@ -102,6 +107,7 @@ class ScalaPApplet extends PApplet with ScalaPConstants {
   // ================
 
   def sin(angle:Float) = PApplet.sin(angle)
+  def tan(angle:Float) = PApplet.tan(angle)
   def degrees(radians:Float) = PApplet.degrees(radians)
   def radians(degrees:Float) = PApplet.radians(degrees)
 

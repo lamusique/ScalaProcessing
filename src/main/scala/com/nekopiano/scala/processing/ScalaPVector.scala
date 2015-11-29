@@ -10,6 +10,11 @@ import processing.core.PVector
 case class ScalaPVector(var x:Float, var y:Float, var z:Float = 0) {
   private val pVector = new PVector(x, y, z)
 
+  // ================
+  // Operation
+  // ================
+  def setX(settingX:Float) = ScalaPVector(settingX, this.y, this.z)
+  def setY(settingY:Float) = ScalaPVector(this.x, settingY, this.z)
   def setZ(settingZ:Float) = ScalaPVector(this.x, this.y, settingZ)
 
   // ================
@@ -21,5 +26,6 @@ case class ScalaPVector(var x:Float, var y:Float, var z:Float = 0) {
 
 }
 object ScalaPVector {
+  val origin = ScalaPVector(0, 0, 0)
   def apply(pVector: PVector):ScalaPVector = ScalaPVector(pVector.x, pVector.y, pVector.z)
 }

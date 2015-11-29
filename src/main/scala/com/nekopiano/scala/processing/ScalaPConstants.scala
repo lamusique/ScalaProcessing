@@ -12,5 +12,6 @@ trait ScalaPConstants extends PConstants {
 
   // Mathematics
   val PI = PConstants.PI
+  val DEG_TO_RAD = PConstants.DEG_TO_RAD
 
 }
