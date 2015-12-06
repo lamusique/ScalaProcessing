@@ -14,7 +14,8 @@ class CameraViewApp extends ScalaPApplet {
   val cameraView = new Camera
 
   override def settings: Unit = {
-    size(1024, 768, P3D)
+    //size(1024, 768, P3D)
+    size(1024, 600, P3D)
     // the following can't work because here the real window size isn't defined yet.
     // size(width, height, P3D)
   }
@@ -76,9 +77,18 @@ class CameraViewApp extends ScalaPApplet {
 
       applyKeyPressedAngles()
 
-      val baseAngle = PI/3
-      //val angleY = baseAngle * (mouseY - height/2f)/(height/2f)
-      //rotateY(PI/3/2)
+      // 30 degrees
+      val baseAngle = PI/6
+      // TODO use tangent
+      //val angleStep = baseAngle/(height/2)
+
+//      val angleX = baseAngle * (width/2f - mouseX)/(width/2f)
+//      val angleY = baseAngle * (mouseY - height/2f)/(height/2f)
+
+//      val angleX = angleStep * (width/2f - mouseX)
+//      val angleY = angleStep * (mouseY - height/2f)
+//      angles = Angles(angleX, angleY)
+
       rotateX(angles.y)
       //text("angleY="+ degrees(angleY) + "°", mouse.addY(20))
       text("angleY="+ angles.yDegrees + "°", ScalaPVector.origin.addY(20))
@@ -92,11 +102,13 @@ class CameraViewApp extends ScalaPApplet {
       line(ScalaPVector.origin, ScalaPVector.origin.setZ(-10000))
       val mouseRearOnScreen = screen(ScalaPVector.origin.setZ(-10000))
       val mouseRearOnModel = model(ScalaPVector.origin.setZ(-10000))
-      (mouseRearOnScreen,mouseRearOnModel)
+      (mouseRearOnScreen, mouseRearOnModel)
     }
 
+    rect(0,0,100,100)
 
     val mouse = getMouseVector()
+    text("angle=" + Angles.degrees(Angles.atan2(height/2-mouseY, cameraView.eye.z)), width/3, height - 110)
     text("mouse=" + mouse, width/3, height - 95)
     text("mouseRearOnScreen=" + mousePoints._1, width/3, height - 80)
     text("mouseRearOnModel=" + mousePoints._2, width/3, height - 65)

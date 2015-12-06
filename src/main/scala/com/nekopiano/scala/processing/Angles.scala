@@ -40,6 +40,7 @@ object Angles {
   // trigonometric functions
   def sin(angle:Float) = PApplet.sin(angle)
   def tan(angle:Float) = PApplet.tan(angle)
+  def atan2(y:Float, x:Float) = PApplet.atan2(y, x)
   def degrees(radians:Float) = PApplet.degrees(radians)
   def radians(degrees:Float) = PApplet.radians(degrees)
 }
