@@ -48,6 +48,7 @@ object PrismApp {
 }
 class TriangularPrism(implicit val sp5:ScalaPApplet) {
   import sp5._
+  import com.nekopiano.scala.processing.Angles._
 
   def display(size:Int):Unit = display(size, size)
   def display(size:Int, depth:Int) {

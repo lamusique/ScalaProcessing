@@ -9,6 +9,8 @@ import processing.core.PConstants._
  */
 class SlateApp extends ScalaPApplet {
 
+  import com.nekopiano.scala.processing.Angles._
+
   implicit val p5 = this
   val slates = new Slates()
 
