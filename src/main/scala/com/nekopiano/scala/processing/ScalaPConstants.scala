@@ -14,4 +14,11 @@ trait ScalaPConstants extends PConstants {
   val PI = PConstants.PI
   val DEG_TO_RAD = PConstants.DEG_TO_RAD
 
+  // Keys
+  val CODED = PConstants.CODED
+  val UP = PConstants.UP
+  val DOWN = PConstants.DOWN
+  val LEFT = PConstants.LEFT
+  val RIGHT = PConstants.RIGHT
+
 }

@@ -16,16 +16,18 @@ class ScalaPApplet extends PApplet with ScalaPConstants {
   // ================
 
   // decouple the matrix using loan pattern
-  def usingMatrix(f: => Unit):Unit = {
+  def usingMatrix[R](f: => R):R = {
     pushMatrix()
-    f
+    val ret = f
     popMatrix()
+    ret
   }
   // decouple the matrix using loan pattern
-  def usingStyle(f: => Unit):Unit = {
+  def usingStyle[R](f: => R):R = {
     pushStyle()
-    f
+    val ret = f
     popStyle()
+    ret
   }
 
   private def getFieldValueReflectively(instance: AnyRef, fieldName: String) = {
@@ -58,6 +60,8 @@ class ScalaPApplet extends PApplet with ScalaPConstants {
   // ================
   def screen(vector: ScalaPVector) =
     ScalaPVector(screenX(vector.x, vector.y, vector.z), screenY(vector.x, vector.y, vector.z), screenZ(vector.x, vector.y, vector.z))
+  def model(vector: ScalaPVector) =
+    ScalaPVector(modelX(vector.x, vector.y, vector.z), modelY(vector.x, vector.y, vector.z), modelZ(vector.x, vector.y, vector.z))
   def translate(vector: ScalaPVector):Unit = translate(vector.x, vector.y, vector.z)
   def getMouseVector() = ScalaPVector(mouseX, mouseY)
 
@@ -106,10 +110,10 @@ class ScalaPApplet extends PApplet with ScalaPConstants {
   // Mathematics
   // ================
 
-  def sin(angle:Float) = PApplet.sin(angle)
-  def tan(angle:Float) = PApplet.tan(angle)
-  def degrees(radians:Float) = PApplet.degrees(radians)
-  def radians(degrees:Float) = PApplet.radians(degrees)
+//  def sin(angle:Float) = Angles.sin(angle)
+//  def tan(angle:Float) = Angles.tan(angle)
+//  def degrees(radians:Float) = Angles.degrees(radians)
+//  def radians(degrees:Float) = Angles.radians(degrees)
 
 }
 object ScalaPApplet {
