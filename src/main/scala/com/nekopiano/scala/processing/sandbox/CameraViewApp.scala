@@ -70,35 +70,24 @@ class CameraViewApp extends ScalaPApplet {
 
     val mousePoints = usingMatrix {
       val mouse = getMouseVector()
-      //val rearMouse = mouse.setZ(-8000)
 
       // make the mouse position the rotating center
       translate(mouse)
 
       applyKeyPressedAngles()
 
-      // 30 degrees
-      val baseAngle = PI/6
-      // TODO use tangent
-      //val angleStep = baseAngle/(height/2)
-
-//      val angleX = baseAngle * (width/2f - mouseX)/(width/2f)
-//      val angleY = baseAngle * (mouseY - height/2f)/(height/2f)
-
-//      val angleX = angleStep * (width/2f - mouseX)
-//      val angleY = angleStep * (mouseY - height/2f)
-//      angles = Angles(angleX, angleY)
+      // 30 degrees on Y-axis
+      val angleY = Angles.atan2(mouseY - height/2f, cameraView.eye.z)
+      // TODO adjust x more
+      val angleX = Angles.atan2(width/2f - mouseX, cameraView.eye.z)
+      angles = Angles(angleX, angleY)
 
       rotateX(angles.y)
-      //text("angleY="+ degrees(angleY) + "°", mouse.addY(20))
       text("angleY="+ angles.yDegrees + "°", ScalaPVector.origin.addY(20))
 
-      //val angleX = baseAngle * (width/2f - mouseX)/(width/2f)
       rotateY(angles.x)
-      //text("angleX="+ degrees(angleX) + "°", mouse.addY(-20))
       text("angleX="+ angles.xDegrees + "°", ScalaPVector.origin.addY(-20))
 
-      //line(mouse, rearMouse)
       line(ScalaPVector.origin, ScalaPVector.origin.setZ(-10000))
       val mouseRearOnScreen = screen(ScalaPVector.origin.setZ(-10000))
       val mouseRearOnModel = model(ScalaPVector.origin.setZ(-10000))
