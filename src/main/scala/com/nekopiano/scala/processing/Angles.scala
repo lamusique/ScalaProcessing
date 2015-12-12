@@ -3,7 +3,7 @@ package com.nekopiano.scala.processing
 import processing.core.PApplet
 
 /**
- * Created by neko on 2015/12/06.
+ * Created on 2015/12/06.
  */
 case class Angles(x:Float = 0f, y:Float = 0f, z:Float = 0f) extends ScalaPConstants {
 

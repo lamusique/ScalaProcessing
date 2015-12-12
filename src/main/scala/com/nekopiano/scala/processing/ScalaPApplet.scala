@@ -6,7 +6,7 @@ import processing.opengl.PGraphics2D
 import scala.reflect.runtime._
 
 /**
- * Created by neko on 2015/11/23.
+ * Created on 2015/11/23.
  */
 class ScalaPApplet extends PApplet with ScalaPConstants {
   import processing.core.PApplet._
