@@ -80,6 +80,7 @@ class CameraViewApp extends ScalaPApplet {
       val angleY = Angles.atan2(mouseY - height/2f, cameraView.eye.z)
       // TODO adjust x more
       val angleX = Angles.atan2(width/2f - mouseX, cameraView.eye.z)
+      //val angleX = Angles.atan2((width/2f - mouseX) * sqrt((mouseY - height/2f) / (height/2f)), cameraView.eye.z)
       angles = Angles(angleX, angleY)
 
       rotateX(angles.y)
