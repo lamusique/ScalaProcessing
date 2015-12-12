@@ -4,6 +4,7 @@ import com.nekopiano.scala.processing.ScalaPApplet
 import processing.core.PApplet
 
 /**
+ * Ported from https://processing.org/examples/bouncybubbles.html
  * Created on 2015/11/23.
  */
 class BouncyBubbles extends ScalaPApplet {
