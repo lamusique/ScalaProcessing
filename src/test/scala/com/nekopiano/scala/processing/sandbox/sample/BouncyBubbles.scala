@@ -1,18 +1,14 @@
 package com.nekopiano.scala.processing.sandbox.sample
 
+import com.nekopiano.scala.processing.ScalaPApplet
 import processing.core.PApplet
 
 /**
  * Created on 2015/11/23.
  */
-class BouncyBubbles extends PApplet {
-
-  import processing.core.PApplet._
+class BouncyBubbles extends ScalaPApplet {
 
   val numBalls = 12
-  val spring = 0.05f
-  val gravity = 0.03f
-  val friction = -0.9f
   val balls:Set[Ball] = {
     val localBalls = (0 to numBalls).map(i => {
       new Ball(random(width), random(height), random(30, 70), i)
@@ -40,64 +36,16 @@ class BouncyBubbles extends PApplet {
   }
 
 
-  class Ball(var x:Float, var y:Float, val diameter:Float, val id:Int) {
-
-    var others: Set[Ball] = Set.empty[Ball]
-
-    var vx = 0f
-    var vy = 0f
-
-    def collide() {
-      others.foreach(ball => {
-        val dx = ball.x - x
-        val dy = ball.y - y
-        val distance = sqrt(dx*dx + dy*dy)
-        val minDist = ball.diameter/2 + this.diameter/2
-        if (distance < minDist) {
-          val angle = atan2(dy, dx)
-          val targetX = x + cos(angle) * minDist
-          val targetY = y + sin(angle) * minDist
-          val ax = (targetX - ball.x) * spring
-          val ay = (targetY - ball.y) * spring
-          vx -= ax
-          vy -= ay
-          ball.vx += ax
-          ball.vy += ay
-        }
-
-      })
-    }
-
-    def move() {
-      vy += gravity
-      x += vx
-      y += vy
-      if (x + diameter/2 > width) {
-        x = width - diameter/2
-        vx *= friction
-      }
-      else if (x - diameter/2 < 0) {
-        x = diameter/2
-        vx *= friction
-      }
-      if (y + diameter/2 > height) {
-        y = height - diameter/2
-        vy *= friction
-      }
-      else if (y - diameter/2 < 0) {
-        y = diameter/2
-        vy *= friction
-      }
-    }
-
-    def display() {
-      ellipse(x, y, diameter, diameter)
-    }
-  }
 
 }
 
 object BouncyBubbles {
+  // Constants
+  val spring = 0.05f
+  val gravity = 0.03f
+  val friction = -0.9f
+
+  // ==== booting process
   val BOOTING_CLASS_NAME = this.getClass.getName.dropRight(1)
   def main(args: Array[String]) {
     // This specifies the class to be instantiated.
@@ -110,3 +58,61 @@ object BouncyBubbles {
   }
 }
 
+class Ball(var x:Float, var y:Float, val diameter:Float, val id:Int)(implicit val sp5: ScalaPApplet) {
+
+  import sp5._
+  import com.nekopiano.scala.processing.Angles._
+  import BouncyBubbles._
+
+  var others: Set[Ball] = Set.empty[Ball]
+
+  var vx = 0f
+  var vy = 0f
+
+  def collide() {
+    others.foreach(ball => {
+      val dx = ball.x - x
+      val dy = ball.y - y
+      val distance = sqrt(dx*dx + dy*dy)
+      val minDist = ball.diameter/2 + this.diameter/2
+      if (distance < minDist) {
+        val angle = atan2(dy, dx)
+        val targetX = x + cos(angle) * minDist
+        val targetY = y + sin(angle) * minDist
+        val ax = (targetX - ball.x) * spring
+        val ay = (targetY - ball.y) * spring
+        vx -= ax
+        vy -= ay
+        ball.vx += ax
+        ball.vy += ay
+      }
+
+    })
+  }
+
+  def move() {
+    vy += gravity
+    x += vx
+    y += vy
+    if (x + diameter/2 > width) {
+      x = width - diameter/2
+      vx *= friction
+    }
+    else if (x - diameter/2 < 0) {
+      x = diameter/2
+      vx *= friction
+    }
+    if (y + diameter/2 > height) {
+      y = height - diameter/2
+      vy *= friction
+    }
+    else if (y - diameter/2 < 0) {
+      y = diameter/2
+      vy *= friction
+    }
+  }
+
+  def display() {
+    ellipse(x, y, diameter, diameter)
+  }
+}
