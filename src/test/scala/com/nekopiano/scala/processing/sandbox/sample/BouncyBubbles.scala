@@ -7,12 +7,13 @@ import processing.core.PApplet
  * Created on 2015/11/23.
  */
 class BouncyBubbles extends ScalaPApplet {
+  import BouncyBubbles._
 
-  val numBalls = 12
   val balls:Set[Ball] = {
-    val localBalls = (0 to numBalls).map(i => {
+    // in parallel
+    val localBalls = (0 to numBalls).par.map(i => {
       new Ball(random(width), random(height), random(30, 70), i)
-    }).toSet
+    }).seq.toSet
     localBalls.foreach(_.others = localBalls)
     localBalls
   }
@@ -35,12 +36,12 @@ class BouncyBubbles extends ScalaPApplet {
     })
   }
 
-
-
 }
 
 object BouncyBubbles {
   // Constants
+  val numBalls = 12
+
   val spring = 0.05f
   val gravity = 0.03f
   val friction = -0.9f
