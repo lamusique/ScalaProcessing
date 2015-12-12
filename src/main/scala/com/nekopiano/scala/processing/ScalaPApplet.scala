@@ -109,6 +109,7 @@ class ScalaPApplet extends PApplet with ScalaPConstants {
   // ================
   // Mathematics
   // ================
+  def sqrt(n:Float) = PApplet.sqrt(n:Float)
 
 //  def sin(angle:Float) = Angles.sin(angle)
 //  def tan(angle:Float) = Angles.tan(angle)
