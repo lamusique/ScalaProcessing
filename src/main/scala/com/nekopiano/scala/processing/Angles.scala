@@ -39,6 +39,7 @@ object Angles {
   val origin = Angles(0f, 0f, 0f)
   // trigonometric functions
   def sin(angle:Float) = PApplet.sin(angle)
+  def cos(angle:Float) = PApplet.cos(angle)
   def tan(angle:Float) = PApplet.tan(angle)
   def atan2(y:Float, x:Float) = PApplet.atan2(y, x)
   def degrees(radians:Float) = PApplet.degrees(radians)
