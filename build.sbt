@@ -9,6 +9,8 @@ libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.11.7"
 // http://mvnrepository.com/artifact/org.processing
 //libraryDependencies += "org.processing" % "processing-complete" % "3.0"
 
+libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.11.7"
+
 // Checking the POM file
 // https://repo1.maven.org/maven2/org/processing/core/3.0/core-3.0.pom
 libraryDependencies += "org.processing" % "core" % "3.0" withSources()

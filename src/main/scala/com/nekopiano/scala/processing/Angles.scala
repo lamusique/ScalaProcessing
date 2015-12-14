@@ -3,7 +3,7 @@ package com.nekopiano.scala.processing
 import processing.core.PApplet
 
 /**
- * Created by neko on 2015/12/06.
+ * Created on 2015/12/06.
  */
 case class Angles(x:Float = 0f, y:Float = 0f, z:Float = 0f) extends ScalaPConstants {
 
@@ -39,6 +39,7 @@ object Angles {
   val origin = Angles(0f, 0f, 0f)
   // trigonometric functions
   def sin(angle:Float) = PApplet.sin(angle)
+  def cos(angle:Float) = PApplet.cos(angle)
   def tan(angle:Float) = PApplet.tan(angle)
   def atan2(y:Float, x:Float) = PApplet.atan2(y, x)
   def degrees(radians:Float) = PApplet.degrees(radians)

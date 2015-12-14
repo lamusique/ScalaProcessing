@@ -3,7 +3,7 @@ package com.nekopiano.scala.processing
 import processing.core.PConstants
 
 /**
- * Created by neko on 2015/11/24.
+ * Created on 2015/11/24.
  */
 trait ScalaPConstants extends PConstants {
 

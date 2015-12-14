@@ -1,7 +1,7 @@
 package com.nekopiano.scala.processing
 
 /**
- * Created by neko on 2015/11/23.
+ * Created on 2015/11/23.
  */
 class ScalaProcessingSkeleton extends ScalaPApplet {
 

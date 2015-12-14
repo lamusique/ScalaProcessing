@@ -1,9 +1,8 @@
 package com.nekopiano.scala.processing
 
 /**
- * Created by neko on 2015/12/06.
+ * Created on 2015/12/06.
  */
-//case class Camera(var cameraX:Float, var cameraY:Float, var cameraZ:Float)(implicit val sp5: ScalaPApplet) {
 case class Camera(var eye:ScalaPVector = ScalaPVector.origin, var center:ScalaPVector = ScalaPVector.origin, var up:ScalaPVector = ScalaPVector(0,1,0))(implicit val sp5: ScalaPApplet) {
   import sp5._
 
