@@ -18,10 +18,12 @@ case class ScalaPVector(var x:Float, var y:Float, var z:Float = 0) {
   // ================
   // Operation
   // ================
+  def set(settingX:Float=this.x, settingY:Float=this.y, settingZ:Float=this.z) = ScalaPVector(settingX, settingY, settingZ)
   def setX(settingX:Float) = ScalaPVector(settingX, this.y, this.z)
   def setY(settingY:Float) = ScalaPVector(this.x, settingY, this.z)
   def setZ(settingZ:Float) = ScalaPVector(this.x, this.y, settingZ)
 
+  def add(settingX:Float, settingY:Float, settingZ:Float) = ScalaPVector(this.x + settingX, this.y + settingY, this.z + settingZ)
   def addX(settingX:Float) = ScalaPVector(this.x + settingX, this.y, this.z)
   def addY(settingY:Float) = ScalaPVector(this.x, this.y + settingY, this.z)
   def addZ(settingZ:Float) = ScalaPVector(this.x, this.y, this.z + settingZ)
