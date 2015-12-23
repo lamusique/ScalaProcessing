@@ -10,6 +10,8 @@ import processing.core.PApplet
 class BouncyBubbles extends ScalaPApplet {
   import BouncyBubbles._
 
+  implicit val sp5 = this
+
   val balls:Set[Ball] = {
     // in parallel
     val localBalls = (0 to numBalls).par.map(i => {
