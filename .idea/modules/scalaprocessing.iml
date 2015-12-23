@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.id="scalaprocessing" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/../../target/scala-2.11/classes" />
     <output-test url="file://$MODULE_DIR$/../../target/scala-2.11/test-classes" />
     <exclude-output />
@@ -17,39 +17,307 @@
       <sourceFolder url="file://$MODULE_DIR$/../../target/scala-2.11/resource_managed/main" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/test/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../target/scala-2.11/resource_managed/test" type="java-test-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/../../target" />
       <excludeFolder url="file://$MODULE_DIR$/../../target/resolution-cache" />
       <excludeFolder url="file://$MODULE_DIR$/../../target/streams" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.11.7:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.processing:core:3.0:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-android-aarch64:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-android-armv6:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-linux-amd64:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-linux-armv6:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-linux-armv6hf:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-linux-i586:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-macosx-universal:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-solaris-amd64:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-solaris-i586:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-windows-amd64:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-windows-i586:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt-main:2.3.2:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-android-aarch64:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-android-armv6:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-linux-amd64:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-linux-armv6:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-linux-armv6hf:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-linux-i586:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-macosx-universal:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-solaris-amd64:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-solaris-i586:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-windows-amd64:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-windows-i586:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all-main:2.3.2:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.scala-lang:scala-reflect:2.11.7:jar" level="project" />
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/jars/gluegen-rt-2.3.2.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/docs/gluegen-rt-2.3.2-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/srcs/gluegen-rt-2.3.2-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-android-aarch64:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/jars/gluegen-rt-2.3.2-natives-android-aarch64.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-android-armv6:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/jars/gluegen-rt-2.3.2-natives-android-armv6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-linux-amd64:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/jars/gluegen-rt-2.3.2-natives-linux-amd64.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-linux-armv6:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/jars/gluegen-rt-2.3.2-natives-linux-armv6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-linux-armv6hf:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/jars/gluegen-rt-2.3.2-natives-linux-armv6hf.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-linux-i586:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/jars/gluegen-rt-2.3.2-natives-linux-i586.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-macosx-universal:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/jars/gluegen-rt-2.3.2-natives-macosx-universal.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-solaris-amd64:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/jars/gluegen-rt-2.3.2-natives-solaris-amd64.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-solaris-i586:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/jars/gluegen-rt-2.3.2-natives-solaris-i586.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-windows-amd64:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/jars/gluegen-rt-2.3.2-natives-windows-amd64.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:natives-windows-i586:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt/jars/gluegen-rt-2.3.2-natives-windows-i586.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.gluegen:gluegen-rt-main:2.3.2:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt-main/jars/gluegen-rt-main-2.3.2.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt-main/docs/gluegen-rt-main-2.3.2-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.gluegen/gluegen-rt-main/srcs/gluegen-rt-main-2.3.2-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.jogl:jogl-all:2.3.2:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/jars/jogl-all-2.3.2.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/docs/jogl-all-2.3.2-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/srcs/jogl-all-2.3.2-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-android-aarch64:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/jars/jogl-all-2.3.2-natives-android-aarch64.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-android-armv6:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/jars/jogl-all-2.3.2-natives-android-armv6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-linux-amd64:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/jars/jogl-all-2.3.2-natives-linux-amd64.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-linux-armv6:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/jars/jogl-all-2.3.2-natives-linux-armv6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-linux-armv6hf:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/jars/jogl-all-2.3.2-natives-linux-armv6hf.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-linux-i586:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/jars/jogl-all-2.3.2-natives-linux-i586.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-macosx-universal:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/jars/jogl-all-2.3.2-natives-macosx-universal.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-solaris-amd64:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/jars/jogl-all-2.3.2-natives-solaris-amd64.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-solaris-i586:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/jars/jogl-all-2.3.2-natives-solaris-i586.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-windows-amd64:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/jars/jogl-all-2.3.2-natives-windows-amd64.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-windows-i586:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all/jars/jogl-all-2.3.2-natives-windows-i586.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.jogamp.jogl:jogl-all-main:2.3.2:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all-main/jars/jogl-all-main-2.3.2.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all-main/docs/jogl-all-main-2.3.2-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.jogamp.jogl/jogl-all-main/srcs/jogl-all-main-2.3.2-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.processing:core:3.0:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.processing/core/jars/core-3.0.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.processing/core/docs/core-3.0-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.processing/core/srcs/core-3.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.scala-lang:scala-library:2.11.7:jar" type="Scala">
+        <properties>
+          <compiler-classpath>
+            <root url="file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.11.7.jar" />
+            <root url="file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.7.jar" />
+            <root url="file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.7.jar" />
+          </compiler-classpath>
+        </properties>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.7.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/docs/scala-library-2.11.7-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.11.7-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="SBT: org.scala-lang:scala-reflect:2.11.7:jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.7.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-reflect/docs/scala-reflect-2.11.7-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-reflect/srcs/scala-reflect-2.11.7-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
