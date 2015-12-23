@@ -1,6 +1,7 @@
 package com.nekopiano.scala.processing.sandbox
 
 import com.nekopiano.scala.processing.{Camera, Angles, ScalaPVector, ScalaPApplet}
+import processing.event.MouseEvent
 
 /**
  * Created by neko on 2015/11/29.
@@ -13,11 +14,22 @@ class CameraViewApp extends ScalaPApplet {
 
   val cameraView = new Camera
 
+  lazy val boxes =
+    1 to 20 map(number =>{
+      new Box(ScalaPVector(width/2.0f, height/2.0f, 400 + -25 * number))
+    })
+
+  var hoveredBoxes = Seq.empty[Box]
+  var lockedBoxes = Seq.empty[Box]
+
   override def settings: Unit = {
     //size(1024, 768, P3D)
-    size(1024, 600, P3D)
+    //size(1024, 600, P3D)
+    size(1280, 768, P3D)
     // the following can't work because here the real window size isn't defined yet.
     // size(width, height, P3D)
+
+    pixelDensity(2)
   }
   override def setup: Unit = {
     cameraView.initialize()
@@ -73,6 +85,7 @@ class CameraViewApp extends ScalaPApplet {
 
       // make the mouse position the rotating center
       translate(mouse)
+      box(10)
 
       applyKeyPressedAngles()
 
@@ -84,10 +97,16 @@ class CameraViewApp extends ScalaPApplet {
       angles = Angles(angleX, angleY)
 
       rotateX(angles.y)
-      text("angleY="+ angles.yDegrees + "°", ScalaPVector.origin.addY(20))
-
+      text("angleY="+ angles.yDegrees + "°", ScalaPVector.origin.addY(-20))
       rotateY(angles.x)
-      text("angleX="+ angles.xDegrees + "°", ScalaPVector.origin.addY(-20))
+      text("angleX="+ angles.xDegrees + "°", ScalaPVector.origin.addY(-40))
+
+
+      text("mouse: x="+mouse.x + ", y="+ mouse.y, ScalaPVector.origin.addY(20))
+      val screenMouse = screen(mouse)
+      text("screenMouse: x="+screenMouse.x + ", y="+ screenMouse.y, ScalaPVector.origin.addY(40))
+      val modelMouse = model(mouse)
+      text("modelMouse: x="+modelMouse.x + ", y="+ modelMouse.y, ScalaPVector.origin.addY(60))
 
       line(ScalaPVector.origin, ScalaPVector.origin.setZ(-10000))
       val mouseRearOnScreen = screen(ScalaPVector.origin.setZ(-10000))
@@ -98,6 +117,17 @@ class CameraViewApp extends ScalaPApplet {
     rect(0,0,100,100)
 
     val mouse = getMouseVector()
+
+    hoveredBoxes = boxes.filter(_.isHover(mouse))
+
+    val untouchedBoxes = boxes diff lockedBoxes
+    untouchedBoxes foreach(_.move())
+
+    untouchedBoxes foreach(_.display(color(255)))
+    hoveredBoxes foreach(_.display(color(255, 0, 0)))
+    lockedBoxes foreach(_.display(color(255, 100, 0)))
+
+
     text("angle=" + Angles.degrees(Angles.atan2(height/2-mouseY, cameraView.eye.z)), width/3, height - 110)
     text("mouse=" + mouse, width/3, height - 95)
     text("mouseRearOnScreen=" + mousePoints._1, width/3, height - 80)
@@ -133,6 +163,22 @@ class CameraViewApp extends ScalaPApplet {
   }
 
 
+  override def mousePressed(event:MouseEvent): Unit = {
+    lockedBoxes = hoveredBoxes
+    lockedBoxes.foreach(box => {
+      box.offsetVector = ScalaPVector(mouseX - box.vector.x, mouseY - box.vector.y, box.vector.z)
+    })
+  }
+  override def mouseDragged(event:MouseEvent): Unit = {
+    lockedBoxes.foreach(box => {
+      box.vector = box.vector.set(mouseX - box.offsetVector.x, mouseY - box.offsetVector.y)
+    })
+  }
+  override def mouseReleased: Unit = {
+    lockedBoxes = Seq.empty[Box]
+  }
+
+
 }
 object CameraViewApp {
   val BOOTING_CLASS_NAME = this.getClass.getName.dropRight(1)
@@ -145,4 +191,78 @@ object CameraViewApp {
       ScalaPApplet.main(appletArgs)
     }
   }
+}
+
+case class Box(var vector: ScalaPVector)(implicit val sp5:ScalaPApplet) {
+
+  import sp5._
+
+  val size = 20
+  val easing = .0005f
+
+  var targetVector = this.vector
+  var offsetVector = this.vector
+
+  def move(): Unit ={
+
+    val targetMoveX = random(-50, 50)
+    val targetMoveY = random(-50, 50)
+    targetVector = targetVector.add(targetMoveX, targetMoveY, 0)
+    if(targetVector.x > width || targetVector.x < 0) {
+      targetVector = targetVector.addX(-targetMoveX)
+    }
+    if(targetVector.y > height || targetVector.y < 0) {
+      targetVector = targetVector.addY(-targetMoveY)
+    }
+
+
+    val moveX = (targetVector.x - vector.x) * easing
+    vector = vector.addX(moveX)
+
+    val moveY = (targetVector.y - vector.y) * easing
+    vector = vector.addY(moveY)
+
+//    if(vector.x > width || vector.x < 0) {
+//      vector = vector.addX(-moveX)
+//    }
+//    if(vector.y > height || vector.y < 0) {
+//      vector = vector.addY(-moveY)
+//    }
+  }
+
+  def isHover(mouse: ScalaPVector) = {
+    val screenOriginVector = usingMatrix {
+      translate(vector)
+      screen(ScalaPVector.origin)
+    }
+    val isWithinWidth = mouse.x >= screenOriginVector.x && mouse.x <= screenOriginVector.x + size
+    val isWithinHeight = mouse.y >= screenOriginVector.y && mouse.y <= screenOriginVector.y + size
+    isWithinWidth && isWithinHeight
+  }
+
+  def display(color:Int): Unit = {
+    val vectors = usingMatrix {
+      translate(vector)
+      usingStyle {
+        fill(color)
+        box(size)
+      }
+
+//      text("vector: x="+vector.x + ", y="+ vector.y, ScalaPVector.origin.addY(20))
+//      val screenVector = screen(vector)
+//      text("screenVector: x="+screenVector.x + ", y="+ screenVector.y, ScalaPVector.origin.addY(40))
+//      val modelVector = model(vector)
+//      text("modelVector: x="+modelVector.x + ", y="+ modelVector.y, ScalaPVector.origin.addY(60))
+      val screenOriginVector = screen(ScalaPVector.origin)
+      text("screenOriginVector: x="+screenOriginVector.x + ", y="+ screenOriginVector.y, ScalaPVector.origin.addY(80))
+
+//      text("x=" + screenVector.x.toString,ScalaPVector.origin.addY(20))
+//      text("y=" + screenVector.y.toString,ScalaPVector.origin.addY(40))
+//      text("z=" + screenVector.z.toString,ScalaPVector.origin.addY(60))
+
+      (vector, screenOriginVector)
+    }
+    line(vectors._1, vectors._2.addZ(100))
+  }
+
 }
