@@ -1,6 +1,7 @@
 package com.nekopiano.scala.processing.sandbox.sample
 
 import com.nekopiano.scala.processing.{Camera, Angles, ScalaPVector, ScalaPApplet}
+import processing.core.PConstants
 import processing.event.MouseEvent
 
 /**
@@ -15,7 +16,7 @@ class GrabbingApp extends ScalaPApplet {
   val cameraView = new Camera
 
   lazy val boxes =
-    1 to 20 map(number =>{
+    1 to 200 map(number =>{
       new Box(ScalaPVector(width/2.0f, height/2.0f, 400 + -25 * number))
     })
 
@@ -50,29 +51,10 @@ class GrabbingApp extends ScalaPApplet {
     cameraView.camera()
 
     usingMatrix {
-      translate(cameraView.eye)
-      point(ScalaPVector.origin)
-      text("eye", ScalaPVector.origin)
-    }
-    usingMatrix {
-      translate(cameraView.center)
-      point(ScalaPVector.origin)
-      text("center", ScalaPVector.origin)
-    }
-
-    usingMatrix {
-      translate(mouseX, mouseY, -mouseY)
-      box(5)
-    }
-
-    val mousePoints = usingMatrix {
       val mouse = getMouseVector()
 
       // make the mouse position the rotating center
       translate(mouse)
-      box(10)
-
-      applyKeyPressedAngles()
 
       // 30 degrees on Y-axis
       val angleY = Angles.atan2(mouseY - height/2f, cameraView.eye.z)
@@ -81,25 +63,11 @@ class GrabbingApp extends ScalaPApplet {
       //val angleX = Angles.atan2((width/2f - mouseX) * sqrt((mouseY - height/2f) / (height/2f)), cameraView.eye.z)
       angles = Angles(angleX, angleY)
 
+      applyKeyPressedAngles()
+
       rotateX(angles.y)
-      text("angleY="+ angles.yDegrees + "°", ScalaPVector.origin.addY(-20))
       rotateY(angles.x)
-      text("angleX="+ angles.xDegrees + "°", ScalaPVector.origin.addY(-40))
-
-
-      text("mouse: x="+mouse.x + ", y="+ mouse.y, ScalaPVector.origin.addY(20))
-      val screenMouse = screen(mouse)
-      text("screenMouse: x="+screenMouse.x + ", y="+ screenMouse.y, ScalaPVector.origin.addY(40))
-      val modelMouse = model(mouse)
-      text("modelMouse: x="+modelMouse.x + ", y="+ modelMouse.y, ScalaPVector.origin.addY(60))
-
-      line(ScalaPVector.origin, ScalaPVector.origin.setZ(-10000))
-      val mouseRearOnScreen = screen(ScalaPVector.origin.setZ(-10000))
-      val mouseRearOnModel = model(ScalaPVector.origin.setZ(-10000))
-      (mouseRearOnScreen, mouseRearOnModel)
     }
-
-    rect(0,0,100,100)
 
     val mouse = getMouseVector()
 
@@ -205,8 +173,9 @@ case class Box(var vector: ScalaPVector)(implicit val sp5:ScalaPApplet) {
       translate(vector)
       screen(ScalaPVector.origin)
     }
-    val isWithinWidth = mouse.x >= screenOriginVector.x && mouse.x <= screenOriginVector.x + size
-    val isWithinHeight = mouse.y >= screenOriginVector.y && mouse.y <= screenOriginVector.y + size
+    val halfSize = size / 2f
+    val isWithinWidth = mouse.x >= screenOriginVector.x - size && mouse.x <= screenOriginVector.x + size
+    val isWithinHeight = mouse.y >= screenOriginVector.y - size && mouse.y <= screenOriginVector.y + size
     isWithinWidth && isWithinHeight
   }
 
