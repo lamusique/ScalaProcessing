@@ -16,7 +16,7 @@ class GrabbingApp extends ScalaPApplet {
   val cameraView = new Camera
 
   lazy val boxes =
-    1 to 200 map(number =>{
+    1 to 200 map(number => {
       new Box(ScalaPVector(width/2.0f, height/2.0f, 400 + -25 * number))
     })
 
