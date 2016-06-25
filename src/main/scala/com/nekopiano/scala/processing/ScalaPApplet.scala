@@ -87,7 +87,7 @@ class ScalaPApplet extends PApplet with ScalaPConstants {
   def line(start: ScalaPVector, end:ScalaPVector): Unit = {
     line(start.x, start.y, start.z, end.x, end.y, end.z)
   }
-  def dottedLine(start: ScalaPVector, end:ScalaPVector, interval:Int=8, stroke:Int=2): Unit = {
+  def dottedLine(start: ScalaPVector, end:ScalaPVector, interval:Int = 8, stroke:Int = 2): Unit = {
     val distance = start.distance(end)
     val intervals = distance / interval
 
@@ -97,6 +97,29 @@ class ScalaPApplet extends PApplet with ScalaPConstants {
         val rate = 1 / intervals * i
         val lerped = start.lerp(end, rate)
         point(lerped.x, lerped.y, lerped.z)
+      })
+    }
+
+  }
+  def dashedLine(start: ScalaPVector, end:ScalaPVector, interval:Int = 8, stroke:Int = 2): Unit = {
+    val distance = start.distance(end)
+    val intervals = distance / interval
+
+    val pairs = (1 to intervals.toInt).grouped(2).filter(_.size > 1)
+
+    usingStyle {
+      strokeWeight(stroke)
+      pairs foreach (pair => {
+
+        def lerpedVector(number: Int) = {
+          val rate = 1 / intervals * number
+          start.lerp(end, rate)
+        }
+
+        val startVector = lerpedVector(pair(0))
+        val endVector = lerpedVector(pair(1))
+
+        line(startVector, endVector)
       })
     }
 

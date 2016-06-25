@@ -43,23 +43,23 @@ class SlateApp extends ScalaPApplet {
     val mouse = ScalaPVector(mouseX, mouseY, 0)
     slates.slates.foreach(slate=>{
       val position = slate.position
-      dottedLine(origin, position)
+      dashedLine(origin, position)
       line(mouse, position)
       val lerped = mouse.lerp(position)
       text("angle = " + degrees(mouse.angleWith(position)) + ", slate=" + position, lerped.x, lerped.y)
     })
 
     text("O", 0,0,0)
-    dottedLine(mouse, origin)
+    dashedLine(mouse, origin)
     val mouseRear = mouse.setZ(-100000)
-    dottedLine(mouse, mouseRear)
+    dashedLine(mouse, mouseRear)
 
     usingMatrix {
       //translate(width/2, height/2,0)
       val rate = (mouseX.toFloat - width/2f)/(width/2f)
       //rotateY(-radians(38.2f)*rate)
       rotateY(-PI/6*rate)
-      dottedLine(mouse, mouseRear)
+      dashedLine(mouse, mouseRear)
       text("rate="+rate, mouse.setY(100))
     }
 
