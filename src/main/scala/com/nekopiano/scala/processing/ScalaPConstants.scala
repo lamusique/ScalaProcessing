@@ -9,6 +9,15 @@ trait ScalaPConstants extends PConstants {
 
   val P2D = PConstants.P2D
   val P3D = PConstants.P3D
+  val PDF = PConstants.PDF
+  val SVG = PConstants.SVG
+
+  // Shapes
+  val TRIANGLE = PConstants.TRIANGLE
+  val TRIANGLES = PConstants.TRIANGLES
+  val TRIANGLE_STRIP = PConstants.TRIANGLE_STRIP
+  val TRIANGLE_FAN = PConstants.TRIANGLE_FAN
+
 
   // Mathematics
   val PI = PConstants.PI
