@@ -19,3 +19,7 @@ libraryDependencies += "org.jogamp.jogl" % "jogl-all-main" % "2.3.2"
 libraryDependencies += "org.jogamp.gluegen" % "gluegen-rt" % "2.3.2"
 libraryDependencies += "org.jogamp.gluegen" % "gluegen-rt-main" % "2.3.2"
 
+libraryDependencies += "org.processing" % "pdf" % "3.1.1" withSources()
+libraryDependencies += "com.lowagie" % "itext" % "4.2.1" withSources()
+
+//libraryDependencies += "org.processing" % "processing-complete" % "3.1.1" withSources()
