@@ -8,9 +8,14 @@ import processing.core.PConstants
 trait ScalaPConstants extends PConstants {
 
   val P2D = PConstants.P2D
+  val JAVA2D = PConstants.JAVA2D
+  val FX2D = PConstants.FX2D
+
   val P3D = PConstants.P3D
+
   val PDF = PConstants.PDF
   val SVG = PConstants.SVG
+  val DXF = PConstants.DXF
 
   // Shapes
   val TRIANGLE = PConstants.TRIANGLE
