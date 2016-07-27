@@ -7,7 +7,8 @@ import processing.core.PVector
  * Created on 2015/11/23.
  */
 //class ScalaPVector(val sx:Float, val sy:Float, val sz:Float) extends PVector {
-case class ScalaPVector(var x:Float, var y:Float, var z:Float = 0) {
+//case class ScalaPVector(var x:Float, var y:Float, var z:Float = 0) {
+case class ScalaPVector(val x:Float, val y:Float, val z:Float = 0) {
   private val pVector = new PVector(x, y, z)
 
   // ================

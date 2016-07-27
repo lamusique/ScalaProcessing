@@ -114,11 +114,11 @@ object SlateApp {
 class Slate(x:Int, y:Int, z:Int)(implicit val sp5:ScalaPApplet) {
   import sp5._
 
-  val position = ScalaPVector(x, y, z)
   val size = ScalaPVector(50, 10, 20)
+  var position = ScalaPVector(x, y, z)
 
   def move(x:Int, y:Int, z:Int): Unit ={
-    position.z = z
+    position = position.setZ(z)
   }
 
   def display(): Unit = {
