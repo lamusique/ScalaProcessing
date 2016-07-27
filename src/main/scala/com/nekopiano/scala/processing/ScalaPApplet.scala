@@ -8,7 +8,7 @@ import scala.reflect.runtime._
 /**
  * Created on 2015/11/23.
  */
-@Deprecated("Use separate traits for each dimension, e.g. line() works different in dimension.","27-07-2016")
+@deprecated("Use separate traits for each dimension, e.g. line() works different in dimension.")
 class ScalaPApplet extends PApplet with ScalaPConstants {
   import processing.core.PApplet._
 
@@ -141,7 +141,7 @@ class ScalaPApplet extends PApplet with ScalaPConstants {
 //  def radians(degrees:Float) = Angles.radians(degrees)
 
 }
-@Deprecated("Use separate traits for each dimension, e.g. line() works different in dimension.","27-07-2016")
+@deprecated("Use separate traits for each dimension, e.g. line() works different in dimension.")
 object ScalaPApplet {
   def main(args : Array[String]) = PApplet.main(args)
 }
