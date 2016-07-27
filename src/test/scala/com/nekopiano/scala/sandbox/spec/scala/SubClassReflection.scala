@@ -1,4 +1,4 @@
-package com.nekopiano.scala.sandbox.scalaspec
+package com.nekopiano.scala.sandbox.spec.scala
 
 import scala.annotation.tailrec
 import scala.reflect.runtime.universe
