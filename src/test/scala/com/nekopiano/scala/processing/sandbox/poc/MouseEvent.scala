@@ -99,7 +99,7 @@ class MouseEventApp extends ThreeDimensionalPApp {
     if (record) {
       //endRaw()
       endRecord()
-      record = false;
+      record = false
     }
   }
 
@@ -107,7 +107,7 @@ class MouseEventApp extends ThreeDimensionalPApp {
   // Hit 'r' to record a single frame
   override def keyPressed() {
     if (key == 'r') {
-      record = true;
+      record = true
     }
   }
 
@@ -145,7 +145,7 @@ class MouseEventApp extends ThreeDimensionalPApp {
       }
       case _ => native
     }
-    castNative
+    //castNative
     println()
 
     println("translateVector=" + translateVector)

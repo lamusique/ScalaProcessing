@@ -7,10 +7,10 @@ import processing.core.PConstants
  */
 trait ScalaPConstants extends PConstants {
 
-  val P2D = PConstants.P2D
   val JAVA2D = PConstants.JAVA2D
   val FX2D = PConstants.FX2D
-
+  // based on OpenGL
+  val P2D = PConstants.P2D
   val P3D = PConstants.P3D
 
   val PDF = PConstants.PDF
@@ -34,5 +34,11 @@ trait ScalaPConstants extends PConstants {
   val DOWN = PConstants.DOWN
   val LEFT = PConstants.LEFT
   val RIGHT = PConstants.RIGHT
+  val ALT = PConstants.ALT
+  val CONTROL = PConstants.CONTROL
+  val SHIFT = PConstants.SHIFT
+
+  // filter/convert types
+  val BLUR = PConstants.BLUR
 
 }
