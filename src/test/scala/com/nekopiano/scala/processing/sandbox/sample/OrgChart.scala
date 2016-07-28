@@ -105,7 +105,7 @@ class OrgChartApp extends ThreeDimensionalPApp {
     usingMatrix {
       fill(255,0,0);
       ellipse(100,100,95,95);
-      filter(BLUR, 6)
+      //filter(BLUR, 6)
       stroke(0);
       fill(255,255,0);
       ellipse(100,100,90,90);
@@ -159,8 +159,13 @@ class OrgChartApp extends ThreeDimensionalPApp {
   }
 
   override def keyReleased(event: KeyEvent) {
-    isCommandPressed = false
-    isOptionPressed = false
+    if (key == CODED) {
+      keyCode match {
+        case 157 => isCommandPressed = false
+        case ALT => isOptionPressed = false
+        case _ => // do nothing
+      }
+    }
   }
 
   override def mouseWheel(event: MouseEvent) {
