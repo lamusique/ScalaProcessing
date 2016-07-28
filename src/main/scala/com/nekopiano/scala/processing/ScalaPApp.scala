@@ -112,6 +112,10 @@ trait ScalaPApp extends PApplet with ScalaPConstants {
   // Mathematics
   // ================
   def sqrt(n:Float) = PApplet.sqrt(n:Float)
+  def sq(n:Float) = PApplet.sq(n)
+  def pow(n:Float, e:Float) = PApplet.pow(n:Float, e:Float)
+  def max(a:Float, b:Float) = PApplet.max(a:Float, b:Float)
+  def min(a:Float, b:Float) = PApplet.min(a:Float, b:Float)
 
 //  def sin(angle:Float) = Angles.sin(angle)
 //  def tan(angle:Float) = Angles.tan(angle)
