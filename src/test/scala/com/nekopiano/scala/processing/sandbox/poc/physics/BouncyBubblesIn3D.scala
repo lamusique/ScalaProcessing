@@ -45,6 +45,16 @@ class BouncyBubblesIn3DApp extends ThreeDimensionalCameraPApp {
       ball.display();
     })
 
+    usingMatrix {
+      val gravityVector = ScalaPVector(width/2, height, 0)
+      val heavenVector = ScalaPVector(width/2, 0, 0)
+      usingStyle {
+        stroke(222, 111, 123, 222)
+        line(heavenVector, gravityVector)
+        textSize(36)
+        text("G", gravityVector)
+      }
+    }
   }
 }
 
@@ -55,9 +65,9 @@ class Ball(var vector: ScalaPVector, val diameter: Float, val id: Int)(implicit 
 
   import sp53d._
 
-  val spring = 0.05f;
-  val gravity = 0.03f;
-  val friction = -0.9f;
+  val spring = 0.05f
+  val gravity = 0.03f
+  val friction = -0.9f
 
   var velocity = ScalaPVector.origin
 
@@ -68,20 +78,30 @@ class Ball(var vector: ScalaPVector, val diameter: Float, val id: Int)(implicit 
     others.foreach(ball => {
       val dx = ball.vector.x - vector.x
       val dy = ball.vector.y - vector.y
-      val distance = sqrt(dx * dx + dy * dy);
-      val minDist = ball.diameter / 2 + this.diameter / 2;
+      val dz = ball.vector.z - vector.z
+
+      //val distance = sqrt(dx * dx + dy * dy)
+      val distance = sqrt(dx * dx + dy * dy + dz * dz)
+      val minDist = ball.diameter / 2 + this.diameter / 2
 
       if (distance < minDist) {
         import com.nekopiano.scala.processing.Angles._
 
-        val angle = atan2(dy, dx);
-        val targetX = vector.x + cos(angle) * minDist;
-        val targetY = vector.y + sin(angle) * minDist;
-        val ax = (targetX - ball.vector.x) * spring;
-        val ay = (targetY - ball.vector.y) * spring;
-        velocity = velocity.add(-ax, -ay, 0)
+        val angle = atan2(dy, dx)
+        val angleZX = atan2(dx, dz)
 
-        ball.velocity = ball.velocity.add(ax, ay, 0)
+        val targetX = vector.x + cos(angle) * minDist;
+        val targetY = vector.y + sin(angle) * minDist
+
+        val targetZ = vector.z + cos(angleZX) * minDist
+
+        val ax = (targetX - ball.vector.x) * spring;
+        val ay = (targetY - ball.vector.y) * spring
+        val az = (targetZ - ball.vector.z) * spring
+
+        velocity = velocity.add(-ax, -ay, -az)
+
+        ball.velocity = ball.velocity.add(ax, ay, az)
       }
 
     })
@@ -116,7 +136,19 @@ class Ball(var vector: ScalaPVector, val diameter: Float, val id: Int)(implicit 
         1
       }
 
-    val frictionVector = ScalaPVector(frictionX, frictionY, 1)
+    val frictionZ =
+      if (vector.z + radius > width) {
+        vector = vector.setZ(width - radius)
+        friction
+      }
+      else if (vector.z - radius < 0) {
+        vector = vector.setZ(radius)
+        friction
+      } else {
+        1
+      }
+
+    val frictionVector = ScalaPVector(frictionX, frictionY, frictionZ)
 
     velocity = velocity.multiply(frictionVector)
 
