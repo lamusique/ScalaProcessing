@@ -7,18 +7,19 @@ import processing.event.{KeyEvent, MouseEvent}
   */
 trait ThreeDimensionalCameraPApp extends ThreeDimensionalPApp {
 
+  val lerpRatio = .075f
+  lazy val classSimpleName = this.getClass.getSimpleName
+
   var lerpedTranslateVector = ScalaPVector.origin
   var targetTranslateVector = ScalaPVector.origin
   var lerpedRotateVector = ScalaPVector.origin
   var targetRotateVector = ScalaPVector.origin
-
 
   var isCommandPressed = false
   var isOptionPressed = false
 
   var record = false
   var printCount = 1
-  lazy val classSimpleName = this.getClass.getSimpleName
 
   override def draw(): Unit = {
     if (record) {
@@ -27,8 +28,8 @@ trait ThreeDimensionalCameraPApp extends ThreeDimensionalPApp {
       //beginRecord(PDF, classSimpleName + "-" + countString + ".pdf")
     }
 
-    lerpedTranslateVector = lerpedTranslateVector.lerp(targetTranslateVector, .075f)
-    lerpedRotateVector = lerpedRotateVector.lerp(targetRotateVector, .075f)
+    lerpedTranslateVector = lerpedTranslateVector.lerp(targetTranslateVector, lerpRatio)
+    lerpedRotateVector = lerpedRotateVector.lerp(targetRotateVector, lerpRatio)
 
     usingMatrix {
 
@@ -78,10 +79,15 @@ trait ThreeDimensionalCameraPApp extends ThreeDimensionalPApp {
   }
 
   override def mouseWheel(event: MouseEvent) {
-    targetTranslateVector = targetTranslateVector.addZ(event.getCount)
+
+    val coefficient = 1.5f
+    targetTranslateVector = targetTranslateVector.addZ(event.getCount * coefficient)
+
+    val maxZ = 650f
+    val minZ = -6500f
     targetTranslateVector.z match {
-      case z:Float if z > 650f => targetTranslateVector.setZ(650f)
-      case z:Float if z < -6500f => targetTranslateVector.setZ(-6500f)
+      case z:Float if z > maxZ => targetTranslateVector.setZ(maxZ)
+      case z:Float if z < minZ => targetTranslateVector.setZ(minZ)
       case _ => // do nothing
     }
   }
@@ -95,7 +101,8 @@ trait ThreeDimensionalCameraPApp extends ThreeDimensionalPApp {
       targetTranslateVector = targetTranslateVector.add(x, y, 0)
     }
     if (isOptionPressed) {
-      targetRotateVector = targetRotateVector.add(x, y, 0)
+      val coefficient = .75f
+      targetRotateVector = targetRotateVector.add(x * coefficient, y * coefficient, 0)
     }
   }
 
