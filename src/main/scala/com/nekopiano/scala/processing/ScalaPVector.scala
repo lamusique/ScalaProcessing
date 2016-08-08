@@ -29,6 +29,10 @@ case class ScalaPVector(val x:Float, val y:Float, val z:Float = 0) {
   def addY(settingY:Float) = ScalaPVector(this.x, this.y + settingY, this.z)
   def addZ(settingZ:Float) = ScalaPVector(this.x, this.y, this.z + settingZ)
 
+  // Object to Object
+  def add(vector: ScalaPVector) = ScalaPVector(this.x + vector.x, this.y + vector.y, this.z + vector.z)
+  def multiply(vector: ScalaPVector) = ScalaPVector(this.x * vector.x, this.y * vector.y, this.z * vector.z)
+
   // ================
   // Calculation
   // ================

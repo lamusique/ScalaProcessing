@@ -25,7 +25,6 @@ class BouncyBubblesIn3DApp extends ThreeDimensionalCameraPApp {
     noStroke()
 
     val localBalls = (0 to numBalls).map(i => {
-      //new Ball(random(width), random(height), random(30, 70), i)
       Ball(i)
     }).toSet
     localBalls.foreach(_.others = localBalls)
@@ -52,7 +51,6 @@ class BouncyBubblesIn3DApp extends ThreeDimensionalCameraPApp {
 object BouncyBubblesIn3DApp extends ScalaPAppCompanion {}
 
 
-//class Ball(var x: Float, var y: Float, val diameter: Float, val id: Int)(implicit val sp5: ScalaPApp) {
 class Ball(var vector: ScalaPVector, val diameter: Float, val id: Int)(implicit val sp53d: ThreeDimensionalPApp) {
 
   import sp53d._
@@ -61,11 +59,9 @@ class Ball(var vector: ScalaPVector, val diameter: Float, val id: Int)(implicit 
   val gravity = 0.03f;
   val friction = -0.9f;
 
+  var velocity = ScalaPVector.origin
 
   var others: Set[Ball] = Set.empty[Ball]
-
-  var vx = 0f
-  var vy = 0f
 
   def collide() {
 
@@ -83,43 +79,57 @@ class Ball(var vector: ScalaPVector, val diameter: Float, val id: Int)(implicit 
         val targetY = vector.y + sin(angle) * minDist;
         val ax = (targetX - ball.vector.x) * spring;
         val ay = (targetY - ball.vector.y) * spring;
-        vx -= ax
-        vy -= ay
-        ball.vx += ax
-        ball.vy += ay
+        velocity = velocity.add(-ax, -ay, 0)
+
+        ball.velocity = ball.velocity.add(ax, ay, 0)
       }
 
     })
   }
 
   def move() {
-    vy += gravity
-    vector = vector.add(vx, vy, 0)
-    if (vector.x + diameter / 2 > width) {
-      vector = vector.setX(width - diameter / 2)
-      vx *= friction
-    }
-    else if (vector.x - diameter / 2 < 0) {
-      vector = vector.setX(diameter / 2)
-      vx *= friction
-    }
-    if (vector.y + diameter / 2 > height) {
-      vector = vector.setY(height - diameter / 2)
-      vy *= friction;
-    }
-    else if (vector.y - diameter / 2 < 0) {
-      vector = vector.setY(diameter / 2)
-      vy *= friction
-    }
+    velocity = velocity.addY(gravity)
+    vector = vector.add(velocity)
+
+    val radius = diameter / 2
+    val frictionX =
+      if (vector.x + radius > width) {
+        vector = vector.setX(width - radius)
+        friction
+      }
+      else if (vector.x - radius < 0) {
+        vector = vector.setX(radius)
+        friction
+      } else {
+        1
+      }
+
+    val frictionY =
+      if (vector.y + radius > height) {
+        vector = vector.setY(height - radius)
+        friction
+      }
+      else if (vector.y - radius < 0) {
+        vector = vector.setY(radius)
+        friction
+      } else {
+        1
+      }
+
+    val frictionVector = ScalaPVector(frictionX, frictionY, 1)
+
+    velocity = velocity.multiply(frictionVector)
+
   }
 
   def display() {
     usingMatrix {
       translate(vector)
-      sphere(diameter/2)
+      sphere(diameter / 2)
     }
   }
 }
+
 object Ball {
   def apply(id: Int)(implicit sp53d: ThreeDimensionalPApp): Ball = {
     import sp53d._
