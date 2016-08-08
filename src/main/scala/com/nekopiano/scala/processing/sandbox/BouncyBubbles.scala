@@ -3,7 +3,7 @@ package com.nekopiano.scala.processing.sandbox
 import processing.core.PApplet
 
 /**
- * Created by neko on 2015/11/23.
+ * Created on 2015/11/23.
  */
 class BouncyBubbles extends PApplet {
 
