@@ -27,6 +27,9 @@ libraryDependencies += "com.lowagie" % "itext" % "4.2.1" withSources()
 //libraryDependencies += "org.processing" % "processing-complete" % "3.1.1" withSources()
 
 
+libraryDependencies += "de.sciss" %% "scalacollider" % "1.18.1"
+
+
 // Read here for optional jars and dependencies
 libraryDependencies ++= Seq("org.specs2" %% "specs2-core" % "3.8.4" % "test")
 
