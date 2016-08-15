@@ -118,6 +118,8 @@ trait ScalaPApp extends PApplet with ScalaPConstants {
   def min(a:Float, b:Float) = PApplet.min(a:Float, b:Float)
   def constrain(amt: Int, low: Int, high: Int) = PApplet.constrain(amt: Int, low: Int, high: Int)
   def constrain(amt: Float, low: Float, high: Float) = PApplet.constrain(amt: Float, low: Float, high: Float)
+  def norm(value: Float, start: Float, stop: Float) = PApplet.norm(value: Float, start: Float, stop: Float)
+  def map(value: Float, start1: Float, stop1: Float, start2: Float, stop2: Float) = PApplet.map(value: Float, start1: Float, stop1: Float, start2: Float, stop2: Float)
 
 //  def sin(angle:Float) = Angles.sin(angle)
 //  def tan(angle:Float) = Angles.tan(angle)
