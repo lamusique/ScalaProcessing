@@ -1,18 +1,19 @@
 package com.nekopiano.scala.processing.sandbox
 
-import com.nekopiano.scala.processing.{Camera, Angles, ScalaPVector, ScalaPApplet}
+import com.nekopiano.scala.processing._
 import processing.event.MouseEvent
 
 /**
  * Created by neko on 2015/11/29.
  */
 class CameraViewApp extends ScalaPApplet {
+//  class CameraViewApp extends ThreeDimensionalCameraPApp {
 
   import com.nekopiano.scala.processing.Angles._
 
   implicit val sp5 = this
 
-  val cameraView = new Camera
+  val cameraView = new ScalaPAppletCamera
 
   lazy val boxes =
     1 to 20 map(number =>{

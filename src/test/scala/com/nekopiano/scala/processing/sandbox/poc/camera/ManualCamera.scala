@@ -23,7 +23,7 @@ class ManualCameraApp extends ThreeDimensionalCameraPApp {
     }
   }
 
-  override def drawFixedObjects(): Unit = {
+  override def superpose(): Unit = {
     textSize(8)
     fill(10)
     text("lerpedTranslateVector=" + lerpedTranslateVector, ScalaPVector(10, height - 20))

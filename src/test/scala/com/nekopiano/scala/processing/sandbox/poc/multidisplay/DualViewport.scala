@@ -1,6 +1,6 @@
 package com.nekopiano.scala.processing.sandbox.poc.multidisplay
 
-import com.nekopiano.scala.processing.{Camera, ScalaPApplet}
+import com.nekopiano.scala.processing.{ScalaPAppletCamera, ScalaPApplet}
 import processing.core.PGraphics
 
 /**
@@ -10,7 +10,7 @@ class DualViewportApp extends ScalaPApplet {
 
   implicit val sp5 = this
 
-  val cameraView = new Camera
+  val cameraView = new ScalaPAppletCamera
 
   val w = 500
   val h = 300

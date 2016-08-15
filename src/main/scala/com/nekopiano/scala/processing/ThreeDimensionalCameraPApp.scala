@@ -21,6 +21,7 @@ trait ThreeDimensionalCameraPApp extends ThreeDimensionalPApp {
   var record = false
   var printCount = 1
 
+  //abstract override def draw(): Unit = {
   override def draw(): Unit = {
     if (record) {
       val countString = "%07d".format(printCount)
@@ -40,7 +41,7 @@ trait ThreeDimensionalCameraPApp extends ThreeDimensionalPApp {
 
       drawObjects()
     }
-    drawFixedObjects()
+    superpose()
 
     if (record) {
       endRaw()
@@ -50,7 +51,11 @@ trait ThreeDimensionalCameraPApp extends ThreeDimensionalPApp {
   }
 
   def drawObjects()
-  def drawFixedObjects() {}
+
+  /**
+    * Superpose after camera translation.
+    */
+  def superpose() {}
 
   // Hit 'r' to record a single frame
   override def keyPressed() {

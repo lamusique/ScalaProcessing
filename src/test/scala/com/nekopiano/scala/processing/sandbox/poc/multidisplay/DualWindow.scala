@@ -1,6 +1,6 @@
 package com.nekopiano.scala.processing.sandbox.poc.multidisplay
 
-import com.nekopiano.scala.processing.{Camera, ScalaPApplet}
+import com.nekopiano.scala.processing.{ScalaPAppletCamera, ScalaPApplet}
 import processing.core.{PApplet, PGraphics}
 
 /**

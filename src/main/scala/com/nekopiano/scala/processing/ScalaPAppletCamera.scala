@@ -3,7 +3,8 @@ package com.nekopiano.scala.processing
 /**
  * Created on 2015/12/06.
  */
-case class Camera(var eye:ScalaPVector = ScalaPVector.origin, var center:ScalaPVector = ScalaPVector.origin, var up:ScalaPVector = ScalaPVector(0,1,0))(implicit val sp5: ScalaPApplet) {
+@deprecated("This depends on old ScalaPApplet.")
+case class ScalaPAppletCamera(var eye:ScalaPVector = ScalaPVector.origin, var center:ScalaPVector = ScalaPVector.origin, var up:ScalaPVector = ScalaPVector(0,1,0))(implicit val sp5: ScalaPApplet) {
   import sp5._
 
   var cameraVector = ScalaPVector.origin

@@ -1,6 +1,6 @@
 package com.nekopiano.scala.processing.sandbox.sample
 
-import com.nekopiano.scala.processing.{Camera, Angles, ScalaPVector, ScalaPApplet}
+import com.nekopiano.scala.processing.{ScalaPAppletCamera, Angles, ScalaPVector, ScalaPApplet}
 import processing.core.PConstants
 import processing.event.MouseEvent
 
@@ -13,7 +13,7 @@ class GrabbingApp extends ScalaPApplet {
 
   implicit val sp5 = this
 
-  val cameraView = new Camera
+  val cameraView = new ScalaPAppletCamera
 
   lazy val boxes =
     1 to 200 map(number => {
