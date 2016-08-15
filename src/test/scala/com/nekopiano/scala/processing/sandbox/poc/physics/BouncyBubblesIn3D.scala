@@ -9,7 +9,7 @@ class BouncyBubblesIn3DApp extends ThreeDimensionalCameraPApp {
 
   implicit val sp5 = this
 
-  val numBalls = 12
+  val numBalls = 48
   var balls: Set[Ball] = null
 
   override def settings: Unit = {
@@ -65,9 +65,9 @@ class Ball(var vector: ScalaPVector, val diameter: Float, val id: Int)(implicit 
 
   import sp53d._
 
-  val spring = 0.05f
-  val gravity = 0.03f
-  val friction = -0.9f
+  val spring = 0.03f
+  val gravity = 0.1f
+  val friction = -0.2f
 
   var velocity = ScalaPVector.origin
 
