@@ -30,6 +30,14 @@ libraryDependencies += "com.lowagie" % "itext" % "4.2.1" withSources()
 libraryDependencies += "de.sciss" %% "scalacollider" % "1.18.1"
 
 
+libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.4.0"
+libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.21"
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.7"
+
+//libraryDependencies += "com.typesafe.play" % "play-logback_2.11" % "2.5.4"
+libraryDependencies += "com.typesafe.play" %% "play-logback" % "2.5.4"
+libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.2" // Scala-JVM
+
 // Read here for optional jars and dependencies
 libraryDependencies ++= Seq("org.specs2" %% "specs2-core" % "3.8.4" % "test")
 
