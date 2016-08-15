@@ -35,7 +35,8 @@ trait ThreeDimensionalCameraPApp extends ThreeDimensionalPApp {
 
       translate(lerpedTranslateVector)
       rotateY(lerpedRotateVector.x / 100)
-      rotateZ(lerpedRotateVector.y / 100)
+      //rotateZ(lerpedRotateVector.y / 100)
+      rotateX(lerpedRotateVector.y / 100)
 
       drawObjects()
     }
@@ -102,7 +103,7 @@ trait ThreeDimensionalCameraPApp extends ThreeDimensionalPApp {
     }
     if (isOptionPressed) {
       val coefficient = .75f
-      targetRotateVector = targetRotateVector.add(x * coefficient, y * coefficient, 0)
+      targetRotateVector = targetRotateVector.add(x * coefficient, y * coefficient, y * coefficient)
     }
   }
 
