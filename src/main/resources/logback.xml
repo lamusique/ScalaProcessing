@@ -3,7 +3,7 @@
 <!-- debug LogBack proper -->
 
 
-    <property name="ConsoleLevel" value="DEBUG" />
+    <!--<property name="ConsoleLevel" value="DEBUG" />-->
 
     <!-- conversionRule with ColoredLevel can colour log levels according to the pattern conversionWord specifies.
     　　The class is in Play framework.
@@ -62,7 +62,8 @@
         <appender-ref ref="CONSOLE"/>
     </appender>
 
-    <root level="DEBUG">
+    <!-- <root level="DEBUG"> -->
+    <root level="INFO">
         <!--<appender-ref ref="ASYNC_CONSOLE"/>-->
         <appender-ref ref="CONSOLE"/>
     </root>
