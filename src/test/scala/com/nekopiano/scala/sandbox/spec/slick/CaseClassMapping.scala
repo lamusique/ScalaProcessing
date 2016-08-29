@@ -8,6 +8,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import slick.driver.H2Driver.api._
 
+import com.github.tototoshi.slick.H2JodaSupport._
+
+
 object CaseClassMapping extends App {
 
   // the base query for the Users table
@@ -29,7 +32,7 @@ object CaseClassMapping extends App {
   } finally db.close
 }
 
-case class User(name: String, id: Option[Int] = None, updateDate:Date = new Date)
+case class User(name: String, id: Option[Int] = None, createDate:DateTime = new DateTime, updateDate:Date = new Date)
 
 class Users(tag: Tag) extends Table[User](tag, "USERS") with BritishDateMapper {
   // Auto Increment the id primary key column
@@ -39,15 +42,18 @@ class Users(tag: Tag) extends Table[User](tag, "USERS") with BritishDateMapper {
   // the * projection (e.g. select * ...) auto-transforms the tupled
   // column values to / from a User
 
-  //implicit val a = BritishDateMapper.utilDate2StringMapper
-  //implicit val utilDate2StringMapperB = utilDate2StringMapper
+  //implicit val utilDate2StringMapper = BritishDateMapper.utilDate2StringMapper
+  implicit val utilDate2StringMapperLocal = utilDate2StringMapper
   //import BritishDateMapper._
   //implicit val bdm = BritishDateMapper
+
+  def createDate = column[DateTime]("CREATE_DATETIME")
 
   //def updateDate = column[Date]("UPDATE_DATETIME")(BritishDateMapper.utilDate2StringMapper)
   //def updateDate = column[Date]("UPDATE_DATETIME")
   def updateDate = column[Date]("UPDATE_DATETIME")(utilDate2StringMapper)
-  def * = (name, id.?, updateDate) <> (User.tupled, User.unapply)
+
+  def * = (name, id.?, createDate, updateDate) <> (User.tupled, User.unapply)
 }
 
 trait BritishDateMapper {

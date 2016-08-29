@@ -37,6 +37,13 @@ object CsvSlick extends App {
 
     )), Duration.Inf)
 
+    Await.result(db.run(DBIO.seq(
+      rows
+        //.filter(row => (row.dob == "19950822"))
+        //.filter {case Row(_,dob,_) => dob == new Date}
+        .result.map(println)
+
+    )), Duration.Inf)
 
   } finally db.close
 }
@@ -46,7 +53,11 @@ case class Row(id: Option[Int] = None, dob:Date, name: String, age:Short)
 class Rows(tag: Tag) extends Table[Row](tag, "csvread('./sample-test.csv')") {
   // Auto Increment the id primary key column
   def id = column[Int]("ID", O.PrimaryKey, O.AutoInc)
-  def dob = column[Date]("DOB")(SystemDateMapper.utilDate2StringMapper)
+
+  implicit val utilDate2StringMapper = SystemDateMapper.utilDate2StringMapper
+  def dob = column[Date]("DOB")
+  //def dob = column[Date]("DOB")(SystemDateMapper.utilDate2StringMapper)
+
   // The name can't be null
   def name = column[String]("NAME")
   def age = column[Short]("AGE")
