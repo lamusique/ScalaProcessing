@@ -48,7 +48,7 @@ object HarmonicRhythm extends App {
   // quaver = 60, milliseconds
   //val demisemiquaver = 1000 / 32
   // 31 milisecs
-  val demisemiquaver = 1000 / 2
+  val demisemiquaver = 1000
 
   val rhythmIntevals = harmonicSeries.map(number => {
     demisemiquaver * (theHighestNumber.toDouble / number)
@@ -59,11 +59,6 @@ object HarmonicRhythm extends App {
 
 
   SuperColliderServer.runServer()
-  //play(440)
-  //play(261.6)
-  //play(261.6 * 2)
-  //play(392)
-
 
 
   // create the system and actor
@@ -79,21 +74,25 @@ object HarmonicRhythm extends App {
 
 
   // Let's get started
-  val toneActors = tones.map{case (pitch, interval) => {
-    val schedulingActor = system.actorOf(Props[SchedulingActor])
-    schedulingActor ! PlayMessage(pitch, interval, System.currentTimeMillis())
+  val toneActors = tones.zipWithIndex.map{case ((pitch, interval), index) => {
+    val number = index + 1
+
+    //val schedulingActor = system.actorOf(Props[SchedulingActor])
+    //created schedulingActor=Actor[akka://HarmonicSystem/user/$a#675789708]
+    //created schedulingActor=Actor[akka://HarmonicSystem/user/$b#-950137678]
+
+    val schedulingActor = system.actorOf(Props[SchedulingActor], "schedulingActor"+ number)
+
+    println("created schedulingActor=" + schedulingActor)
+    schedulingActor ! PlayMessage(number, pitch, interval, System.currentTimeMillis())
     schedulingActor
   }}
 
 
-
-
-
 }
 
-case class PlayMessage(hertz:Double, interval:Double, currentTimeMillis:Long)
+case class PlayMessage(number:Int, hertz:Double, interval:Double, currentTimeMillis:Long)
 
-//class SchedulingActor(playActor:ActorRef) extends Actor {
 class SchedulingActor extends Actor {
 
   val random = new Random()
@@ -101,34 +100,23 @@ class SchedulingActor extends Actor {
 
   def receive = {
     case msg:PlayMessage => {
-      // respond to the 'ask' request
+
       val response = "hertz = " + msg.hertz + ", interval = " + msg.interval + ", currentTimeMillis = " + msg.currentTimeMillis
       println(response)
 
       val system = context.system
       import system.dispatcher
 
-//      implicit val timeout = Timeout(FiniteDuration(1, TimeUnit.SECONDS))
-//      val playActor = system.actorSelection("playActor").resolveOne().onComplete {
-//        case Success(actorRef) => actorRef
-//        case Failure(ex) => {
-//          println("The actor does not exist.")
-//          throw ex}
-//      }
-      //val playActor = system.actorSelection("../playActor")
-      val playActor = system.actorSelection("akka://HarmonicSystem/user/playActor")
+
+      val playActor = system.actorSelection("user/playActor")
+      //val playActor = system.actorSelection("akka://HarmonicSystem/user/playActor")
       println("called playActor=" + playActor)
 
       import scala.concurrent.duration._
 
-//      val cancellable =
-//        system.scheduler.schedule(
-//          0 milliseconds,
-//          500 milliseconds,
-//          playActor,
-//          PitchMessage(440, 100, System.currentTimeMillis()))
-
-      val deviatedStart = random(1500)
+      val deviatedStart = random(3000)
+      val steppedStart = deviatedStart - deviatedStart % 250
+      println("steppedStart=" + steppedStart)
 
       val cancellable =
         system.scheduler.schedule(
@@ -136,7 +124,7 @@ class SchedulingActor extends Actor {
           deviatedStart milliseconds,
           msg.interval milliseconds) {
           //println("msg="+msg)
-          playActor ! ToneMessage(msg.hertz, msg.currentTimeMillis)
+          playActor ! ToneMessage(msg.number, msg.hertz, msg.currentTimeMillis)
         }
 
       sender ! response
@@ -147,7 +135,7 @@ class SchedulingActor extends Actor {
 
 }
 
-case class ToneMessage(hertz:Double, currentTimeMillis:Long)
+case class ToneMessage(number:Int, hertz:Double, currentTimeMillis:Long)
 class PlayActor extends Actor {
   def receive = {
     case msg:ToneMessage => {
