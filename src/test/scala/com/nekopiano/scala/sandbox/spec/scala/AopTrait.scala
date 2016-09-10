@@ -1,27 +1,133 @@
 package com.nekopiano.scala.sandbox.spec.scala
 
+import scala.annotation.tailrec
+
 /**
   * Created on 15/08/2016.
   */
 object AopTrait extends App {
 
-  trait Abstract extends Result {
-    abstract override def userRepr = "abstract " + super.userRepr
+
+
+  abstract class SuperAbstract {
+    def value: String = "super abstract"
   }
 
-  abstract class Result {
-    def userRepr: String = "wtv"
+  trait AbstractTrait extends SuperAbstract {
+    abstract override def value = "abstract trait : " + super.value
   }
 
-  case class ValDefResult(name: String) extends Result {
-    override def userRepr = name
+  case class CaseClassA(name: String) extends SuperAbstract {
+    override def value = "CaseClassA name=" + name + ", super = " + super.value
   }
 
-  val a = new ValDefResult("asd") with Abstract
-  println(a.userRepr)
+
+  case class CaseClassB(name: String) extends SuperAbstract with AbstractTrait {
+    override def value = "CaseClassB name=" + name + ", super = " + super.value
+  }
+
+  println("=" * 64)
+
+  def scanHierarchy(obj:Any) = {
+    @tailrec
+    def getSuper(clazz:Class[_], acc:List[Class[_]]):List[Class[_]] = {
+      clazz match {
+        case null => acc
+        case clazz:Class[_] =>
+          getSuper(clazz.getSuperclass, acc :+ clazz)
+      }
+    }
+    getSuper(obj.getClass, List())
+  }
+  def printClassHierarchy(obj:Any) = {
+    val classHierarchy = scanHierarchy(obj)
+    val formattedClassHierarchy = classHierarchy.reverse.zipWithIndex map { case (clazz, index) => {
+      if (index > 0)
+        index + ": " + "  " * index + "-> " + clazz
+      else index + ": " + clazz
+    }}
+    println(formattedClassHierarchy.mkString("\n"))
+  }
 
 
+  val caseClassAWithTrait = new CaseClassA("CaseClass A at runtime with Abstract") with AbstractTrait
+  printClassHierarchy(caseClassAWithTrait)
+  println(caseClassAWithTrait.value)
 
+  val caseClassB = new CaseClassB("CaseClass B")
+  printClassHierarchy(caseClassB)
+  println(caseClassB.value)
+
+  val caseClassBWithTrait = new CaseClassB("CaseClass B at runtime with Abstract") with AbstractTrait
+  printClassHierarchy(caseClassBWithTrait)
+  println(caseClassBWithTrait.value)
+
+  println("=" * 64)
+
+  trait TraitA {
+    def greet(): Unit = println("I'm Trait A.")
+  }
+
+  trait TraitB extends TraitA {
+    override def greet(): Unit = {
+      super.greet()
+      println("I'm Trait B.")
+    }
+  }
+
+  trait TraitC extends TraitA {
+    override def greet(): Unit = {
+      super.greet()
+      println("I'm Trait C.")
+    }
+  }
+
+  class ClassA extends TraitB with TraitC
+  class ClassB extends TraitC with TraitB
+  class ClassC extends TraitB with TraitC {
+    override def greet(): Unit = {
+      super.greet()
+      println("I'm Class C.")
+    }
+  }
+  class ClassD extends TraitA {
+    override def greet(): Unit = {
+      super.greet()
+      println("I'm Class D.")
+    }
+  }
+  class ClassE extends TraitA with TraitB {
+    override def greet(): Unit = {
+      super.greet()
+      println("I'm Class E.")
+    }
+  }
+
+  val classA = new ClassA
+  printClassHierarchy(classA)
+  classA.greet()
+
+  val classB = new ClassB
+  printClassHierarchy(classB)
+  classB.greet()
+
+  val classC = new ClassC
+  printClassHierarchy(classC)
+  classC.greet()
+
+  val classCWithTrait = new ClassC with TraitA
+  printClassHierarchy(classCWithTrait)
+  classCWithTrait.greet()
+
+  val classDWithTrait = new ClassD with TraitB
+  printClassHierarchy(classDWithTrait)
+  classDWithTrait.greet()
+
+  val classE = new ClassE
+  printClassHierarchy(classE)
+  classE.greet()
+
+  println("=" * 64)
 
 
   trait Login {
@@ -71,9 +177,6 @@ object AopTrait extends App {
   println(d.value)
   val da = new D("ddd") with A
   println(da.value)
-
-
-
 
 
 
