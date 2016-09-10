@@ -18,6 +18,14 @@ object SuperColliderSynthTest extends App with LazyLogging {
   // the path to scsynth
   cfg.program = "/Applications/SuperCollider.app/Contents/Resources/scsynth"
 
+
+  import scala.concurrent._
+  import ExecutionContext.Implicits.global
+
+  val serverPromise = Promise[Server]
+  val serverFuture: Future[Server] = serverPromise.future
+  serverFuture.foreach(e => println("deferred promised future value = " + e + " : " + sourcecode.Line.generate))
+
   //  SynthDef.new( \sound2, { arg freq, amp;
   //    var src, env;
   //    src = SinOsc.ar( freq, 0, 1, 0 );
@@ -37,12 +45,12 @@ object SuperColliderSynthTest extends App with LazyLogging {
     Out.ar(0, b)
   }
 
-//  SynthDef("testsynth", {
-//    arg out, sustain=1, pan;
-//    var env = EnvGen.ar(Env.linen(0.01, 0.98, 0.01, 1,-3), timeScale:sustain, doneAction:2);
-//    var sound = SinOsc.ar(440.0);
-//    OffsetOut.ar(out, DirtPan.ar(sound, ~dirt.numChannels, pan, env));
-//  }).add;
+  //  SynthDef("testsynth", {
+  //    arg out, sustain=1, pan;
+  //    var env = EnvGen.ar(Env.linen(0.01, 0.98, 0.01, 1,-3), timeScale:sustain, doneAction:2);
+  //    var sound = SinOsc.ar(440.0);
+  //    OffsetOut.ar(out, DirtPan.ar(sound, ~dirt.numChannels, pan, env));
+  //  }).add;
 
   val sineDecaySynth = SynthDef("sineDecay") {
     val freq = "freq".kr(261.6)
@@ -63,15 +71,13 @@ object SuperColliderSynthTest extends App with LazyLogging {
     Out.ar(0, x)
   }
 
-  import scala.concurrent._
-  import ExecutionContext.Implicits.global
-
-  val serverPromise = Promise[Server]
-  val serverFuture: Future[Server] = serverPromise.future
-  serverFuture.foreach(e => println("deferred promised future value = " + e + " : " + sourcecode.Line.generate))
-
   //  val runningCodes: (Server) => Unit = (s:Server) => {
   val runningCodes = (s: Server) => {
+
+    serverPromise.success(Server.default)
+    val defaultServer = Server.default
+    logger.info("defaultServer=" + defaultServer + " : " + sourcecode.Line.generate)
+
 
     sineDecaySynth.recv(s)
 
@@ -82,10 +88,6 @@ object SuperColliderSynthTest extends App with LazyLogging {
     //sineDecaySynth.play(freq = 440)
     //analogBubblesSynth.play()
 
-    val defaultServer = Server.default
-    logger.info("defaultServer=" + defaultServer + " : " + sourcecode.Line.generate)
-
-    serverPromise.success(Server.default)
 
     logger.info("run ends." + " : " + sourcecode.Line.generate)
     defaultServer
