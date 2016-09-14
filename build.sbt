@@ -7,7 +7,7 @@ scalaVersion := "2.11.8"
 
 libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.11.8"
 
-libraryDependencies += "com.typesafe.akka" % "akka-actor" % "2.4.10"
+libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.4.10"
 
 
 // http://mvnrepository.com/artifact/org.processing
