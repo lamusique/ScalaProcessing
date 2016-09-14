@@ -155,9 +155,16 @@ class Ball(var vector: ScalaPVector, val diameter: Float, val id: Int)(implicit 
   }
 
   def display() {
+    // a ball
     usingMatrix {
       translate(vector)
       sphere(diameter / 2)
+    }
+    // a shadow
+    usingMatrix {
+      translate(ScalaPVector(vector.x, height, vector.z))
+      rotateX(Angles.radians(90))
+      ellipse(0, 0, diameter, diameter)
     }
   }
 }
