@@ -25,6 +25,9 @@ class ColourPlay extends ThreeDimensionalPApp {
 
   val dim = Promise[Int]
 
+  import scala.concurrent.duration._
+  lazy val dimR = Await.result(dim.future, 3 seconds)
+
   override def settings(): Unit = {
     //size(640, 360)
     size(1024, 768, P3D)
@@ -47,34 +50,39 @@ class ColourPlay extends ThreeDimensionalPApp {
     noStroke()
     ellipseMode(RADIUS)
     //frameRate(1)
+    //frameRate(60)
 
   }
 
-  import scala.concurrent.duration._
 
+
+
+  var bgC = 0
   override def draw() {
 
-    background(0)
+    surface.setTitle("FPS: " + frameRate + " background: " + bgC)
+
+    //background(0)
+    background(bgC)
+    bgC += 1
 
 
-    // blocking
-    val b1r = Await.result(b1.future, 3 seconds)
-    val b2r = Await.result(b2.future, 3 seconds)
-    val c1r = Await.result(c1.future, 3 seconds)
-    val c2r = Await.result(c2.future, 3 seconds)
+//    // blocking
+//    val b1r = Await.result(b1.future, 3 seconds)
+//    val b2r = Await.result(b2.future, 3 seconds)
+//    val c1r = Await.result(c1.future, 3 seconds)
+//    val c2r = Await.result(c2.future, 3 seconds)
+//
+//    // Background
+//    setGradient(0, 0, width/2, height, b1r, b2r, X);
+//    setGradient(width/2, 0, width/2, height, b2r, b1r, X);
+//    // Foreground
+//    setGradient(50, 90, 540, 80, c1r, c2r, Y);
+//    setGradient(50, 190, 540, 80, c2r, c1r, X);
 
-    // Background
-    setGradient(0, 0, width/2, height, b1r, b2r, X);
-    setGradient(width/2, 0, width/2, height, b2r, b1r, X);
-    // Foreground
-    setGradient(50, 90, 540, 80, c1r, c2r, Y);
-    setGradient(50, 190, 540, 80, c2r, c1r, X);
-
-
-    val dimR = Await.result(dim.future, 3 seconds)
     (0 to (width / dimR)).foreach(i => {
       drawGradient(i * dimR, height/2)
-      Thread.sleep(500)
+      //Thread.sleep(500)
     })
   }
 
@@ -108,19 +116,22 @@ class ColourPlay extends ThreeDimensionalPApp {
   }
 
 
-  var h = 0f
+  var baseHue = 0f
   def drawGradient(x:Float, y:Float) {
 
     val dimR = Await.result(dim.future, 3 seconds)
 
     val radius = dimR/2
     //var h = random(0, 360)
+    var h = baseHue
     (1 to radius).reverse.foreach(r => {
       fill(h, 90, 90)
       ellipse(x, y, r, r)
       h = (h + 1) % 360
+      //h = (h + radius) % 360
       //h = (h + .001f) % 360f
     })
+    baseHue += 1
   }
 
 
