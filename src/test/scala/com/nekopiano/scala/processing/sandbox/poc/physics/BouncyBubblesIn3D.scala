@@ -71,7 +71,7 @@ class Ball(var vector: ScalaPVector, val diameter: Float, val id: Int)(implicit 
 
   var velocity = ScalaPVector.origin
 
-  var others: Set[Ball] = Set.empty[Ball]
+  var others = Set.empty[Ball]
 
   def collide() {
 
@@ -102,9 +102,15 @@ class Ball(var vector: ScalaPVector, val diameter: Float, val id: Int)(implicit 
         velocity = velocity.add(-ax, -ay, -az)
 
         ball.velocity = ball.velocity.add(ax, ay, az)
+
+        actInCollision()
       }
 
     })
+  }
+
+  def actInCollision() {
+    // nothing
   }
 
   def move() {
