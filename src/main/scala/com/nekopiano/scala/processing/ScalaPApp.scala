@@ -145,6 +145,7 @@ trait ScalaPApp extends PApplet with ScalaPConstants {
 
 }
 
+@deprecated("Use ScalaPAppInstanceCompanion")
 trait ScalaPAppCompanion {
   def main(args: Array[String]) {
     val BOOTING_CLASS_NAME = this.getClass.getName.dropRight(1)
@@ -156,4 +157,13 @@ trait ScalaPAppCompanion {
       PApplet.main(appletArgs)
     }
   }
+}
+
+trait ScalaPAppInstanceCompanion {
+  def main(args: Array[String]) {
+    val BOOTING_CLASS_NAME = this.getClass.getName.dropRight(1)
+    val appletArgs = Array(BOOTING_CLASS_NAME)
+    PApplet.runSketch(appletArgs, instance)
+  }
+  def instance:ScalaPApp
 }
