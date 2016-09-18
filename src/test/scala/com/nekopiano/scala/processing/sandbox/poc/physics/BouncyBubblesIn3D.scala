@@ -2,6 +2,8 @@ package com.nekopiano.scala.processing.sandbox.poc.physics
 
 import com.nekopiano.scala.processing._
 
+import scala.concurrent.{Await, Promise}
+
 /**
   * Created on 09/08/2016.
   */
@@ -10,7 +12,11 @@ class BouncyBubblesIn3DApp extends ThreeDimensionalCameraPApp {
   implicit val sp5 = this
 
   val numBalls = 48
-  var balls: Set[Ball] = null
+
+  val ballsPromise = Promise[Set[Ball]]
+  // blocking
+  import scala.concurrent.duration._
+  lazy val balls = Await.result(ballsPromise.future, 3 seconds)
 
   override def settings: Unit = {
     size(1024, 768, P3D)
@@ -28,7 +34,7 @@ class BouncyBubblesIn3DApp extends ThreeDimensionalCameraPApp {
       Ball(i)
     }).toSet
     localBalls.foreach(_.others = localBalls)
-    balls = localBalls
+    ballsPromise.success(localBalls)
   }
 
   override def drawObjects(): Unit = {
