@@ -30,11 +30,11 @@ class BouncyBubblesIn3DWSoundApp extends ThreeDimensionalCameraPApp with LazyLog
     val localBalls = (0.until(numBalls)).map(i => {
       SoundBall.apply(i)
     }).toSet[Ball]
-    localBalls.foreach(ball => {ball.others = localBalls.-(ball)})
+    localBalls.foreach(ball => {ball.others = localBalls - ball})
     balls = localBalls
 
     logger.info("waiting")
-    Thread.sleep(5000)
+    //Thread.sleep(5000)
   }
 
   override def drawObjects(): Unit = {
