@@ -71,7 +71,7 @@ object HarmonicFlows extends App {
     val toneActor = system.actorOf(Props[ToneActor], "toneActor"+ number)
 
     println("created toneActor=" + toneActor)
-    val amp = 0.5 / number
+    val amp = 0.3 / number
     toneActor ! ToneMessage(number, pitch, amp, System.currentTimeMillis())
     toneActor
   }}
@@ -79,8 +79,8 @@ object HarmonicFlows extends App {
 
 }
 
-case class ToneMessage(number:Int, hertz:Double, amp:Double, currentTimeMillis:Long)
-case class ToneChangeMessage(number:Int, hertz:Option[Double], amp:Option[Double], currentTimeMillis:Long)
+case class ToneMessage(number:Int, freq:Double, amp:Double, currentTimeMillis:Long)
+case class ToneChangeMessage(number:Int, freq:Option[Double], amp:Option[Double], freqLag:Option[Double], ampLag:Option[Double], currentTimeMillis:Long)
 class ToneActor extends Actor {
 
   import de.sciss.synth._
@@ -106,15 +106,17 @@ class ToneActor extends Actor {
   var number = -1
   var freq = 0.0
   var amp = 0.0
+  var freqLag = 0.0
+  var ampLag = 0.0
 
   def receive = {
     case msg:ToneMessage => {
 
-      this.number = msg.number
-      this.freq = msg.hertz
-      this.amp = msg.amp
-      play(msg.hertz, msg.amp)
-      println(this + " plays " + msg)
+      number = msg.number
+      freq = msg.freq
+      amp = msg.amp
+      play(msg.freq, msg.amp)
+      println(self + " plays " + msg)
 
       //sender ! "Done"
 
@@ -123,7 +125,17 @@ class ToneActor extends Actor {
       sender ! this + " started."
     }
     case msg:ToneChangeMessage => {
-      msg.hertz match {
+
+      msg.freqLag match {
+        case None => // do nothing
+        case Some(hertz) => changePitch(hertz)
+      }
+      msg.ampLag match {
+        case None => // do nothing
+        case Some(amp) => changeAmp(amp)
+      }
+
+      msg.freq match {
         case None => // do nothing
         case Some(hertz) => changePitch(hertz)
       }
@@ -146,19 +158,32 @@ class ToneActor extends Actor {
   }
 
   def changeTone() {
-    val delay = random(5)
-    val amp = random(0.001, 0.5)
-    val freqDiff = random(-20, 20)
-    val freq = this.freq + freqDiff
+
+    val delay = random(20)
+
+    val ampDiff = random(-0.2, 0.2)
+    amp = amp + ampDiff
+    if (amp < 0 ) amp = 0
+    if (amp > 0.3 ) amp = 0.3
+
+    ampLag = random(10)
+
+    val freqDiff = random(-10, 10)
+    freq = freq + freqDiff
+
+    freqLag = random(10)
 
     //val change = ToneChangeMessage(number, None, Option(amp), System.currentTimeMillis())
-    val change = ToneChangeMessage(number, Option(freq), Option(amp), System.currentTimeMillis())
+    //val change = ToneChangeMessage(number, Option(freq), Option(amp), None, None, System.currentTimeMillis())
+    val change = ToneChangeMessage(number, Option(freq), Option(amp), Option(freqLag), Option(ampLag), System.currentTimeMillis())
 
     val cancellable = context.system.scheduler.scheduleOnce(delay seconds, self, change)
-    println(this + " changes " + change + " after " + delay + " seconds.")
+    println(self + " changes " + change + " after " + delay + " seconds.")
   }
 
   def changePitch(freq:Double) {
+
+
     synth.set("freq" -> freq)
     this.freq = freq
   }
