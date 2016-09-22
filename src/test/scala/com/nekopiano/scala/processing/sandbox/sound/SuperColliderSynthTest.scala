@@ -26,6 +26,7 @@ object SuperColliderSynthTest extends App with LazyLogging {
   val serverFuture: Future[Server] = serverPromise.future
   serverFuture.foreach(e => println("deferred promised future value = " + e + " : " + sourcecode.Line.generate))
 
+
   //  SynthDef.new( \sound2, { arg freq, amp;
   //    var src, env;
   //    src = SinOsc.ar( freq, 0, 1, 0 );
@@ -41,6 +42,14 @@ object SuperColliderSynthTest extends App with LazyLogging {
     val freq = "freq".kr(261.6)
     val amp = "amp".kr(.2)
     val a = SinOsc.ar(freq).madd(amp, 0)
+    val b = Pan2.ar(a, 0)
+    Out.ar(0, b)
+  }
+
+  val sineAmpSynth = SynthDef("sineAmp") {
+    val freq = "freq".kr(261.6)
+    val xline = XLine.kr(.9, .1, 10)
+    val a = SinOsc.ar(freq).madd(xline, 0)
     val b = Pan2.ar(a, 0)
     Out.ar(0, b)
   }
@@ -79,7 +88,12 @@ object SuperColliderSynthTest extends App with LazyLogging {
     logger.info("defaultServer=" + defaultServer + " : " + sourcecode.Line.generate)
 
 
+    // Mandatory!
+    // prepare synths
     sineDecaySynth.recv(s)
+    sineSynth.recv(s)
+    sineAmpSynth.recv(s)
+
 
     Synth.play(sineDecaySynth.name, Seq("freq" -> 440))
     Synth.play(sineDecaySynth.name, Seq("freq" -> 450))
@@ -87,6 +101,26 @@ object SuperColliderSynthTest extends App with LazyLogging {
 
     //sineDecaySynth.play(freq = 440)
     //analogBubblesSynth.play()
+
+    val sine = Synth.play(sineSynth.name, Seq("freq" -> 261.6))
+
+    println(sineSynth.graph.productIterator.toList)
+    println(sineSynth.graph.constants)
+    println(sineSynth.graph.controlNames)
+    println(sineSynth.graph.controlValues)
+
+    Thread.sleep(2000)
+    sine.set(("amp" -> .1))
+    Thread.sleep(2000)
+    sine.set(("amp" -> .8))
+    Thread.sleep(2000)
+    //sine.free()
+    sine.run(false)
+
+    val sineAmp = Synth.play(sineAmpSynth.name, Seq("freq" -> 440))
+
+    sine.run()
+    //sine.map(("amp" -> XLine.kr(.9, .1, 10)))
 
 
     logger.info("run ends." + " : " + sourcecode.Line.generate)
