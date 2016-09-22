@@ -11,7 +11,7 @@ import processing.opengl.{PGL, PGraphicsOpenGL}
   * Created on 28/07/2016.
   */
 class GlowOGLApp extends ThreeDimensionalPApp {
-  // http://takuma-art.blogspot.jp/2009/08/processingglow.htm
+  // http://takuma-art.blogspot.jp/2009/08/processingglow.html
   // http://log.nissuk.info/2012/02/processing-20a4-glow-openglapplet.html
 
   var pgl:PGraphicsOpenGL = null
