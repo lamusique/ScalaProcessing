@@ -80,7 +80,7 @@ object HarmonicFlows extends App {
 }
 
 case class ToneMessage(number:Int, freq:Double, amp:Double, currentTimeMillis:Long)
-case class ToneChangeMessage(number:Int, freq:Option[Double], amp:Option[Double], freqLag:Option[Double], ampLag:Option[Double], currentTimeMillis:Long)
+case class ToneChangeMessage(number:Int, freq:Option[Double], amp:Option[Double], pan:Option[Double], freqLag:Option[Double], ampLag:Option[Double], panLag:Option[Double], currentTimeMillis:Long)
 class ToneActor extends Actor {
 
   import de.sciss.synth._
@@ -108,6 +108,8 @@ class ToneActor extends Actor {
   var amp = 0.0
   var freqLag = 0.0
   var ampLag = 0.0
+  var pan = 0.0
+  var panLag = 0.0
 
   def receive = {
     case msg:ToneMessage => {
@@ -164,18 +166,22 @@ class ToneActor extends Actor {
     val ampDiff = random(-0.2, 0.2)
     amp = amp + ampDiff
     if (amp < 0 ) amp = 0
-    if (amp > 0.3 ) amp = 0.3
+    if (amp > 0.2 ) amp = 0.2
 
     ampLag = random(10)
 
-    val freqDiff = random(-10, 10)
+    val freqDiff = random(-50, 50)
     freq = freq + freqDiff
 
     freqLag = random(10)
 
+    pan = random(-1, 1)
+    panLag = random(10)
+
     //val change = ToneChangeMessage(number, None, Option(amp), System.currentTimeMillis())
     //val change = ToneChangeMessage(number, Option(freq), Option(amp), None, None, System.currentTimeMillis())
-    val change = ToneChangeMessage(number, Option(freq), Option(amp), Option(freqLag), Option(ampLag), System.currentTimeMillis())
+    //val change = ToneChangeMessage(number, Option(freq), Option(amp), Option(freqLag), Option(ampLag), System.currentTimeMillis())
+    val change = ToneChangeMessage(number, Option(freq), Option(amp), Option(pan), Option(freqLag), Option(ampLag), Option(panLag), System.currentTimeMillis())
 
     val cancellable = context.system.scheduler.scheduleOnce(delay seconds, self, change)
     println(self + " changes " + change + " after " + delay + " seconds.")
@@ -211,15 +217,18 @@ object SuperColliderServer extends LazyLogging {
   val sineLagSynth = SynthDef("sineLag") {
     val freq = "freq".kr(261.6)
     val amp = "amp".kr(.2)
-    val freqlag = "freqlag".kr(2.0)
-    val amplag = "amplag".kr(2.0)
+    val freqlag = "freqlag".kr(1.0)
+    val amplag = "amplag".kr(1.0)
+    val pan = "pan".kr(0.0)
+    val panLag = "panLag".kr(1.0)
 
     val lagFreq = Lag.kr(freq, freqlag)
     val lagAmp = Lag.kr(amp, amplag)
+    val lagPan = Lag.kr(pan, panLag)
 
     val src = SinOsc.ar(lagFreq).madd(lagAmp, 0)
-    val pan = Pan2.ar(src, 0)
-    Out.ar(0, pan)
+    val pan2 = Pan2.ar(src, lagPan)
+    Out.ar(0, pan2)
   }
 
   def runServer() {
