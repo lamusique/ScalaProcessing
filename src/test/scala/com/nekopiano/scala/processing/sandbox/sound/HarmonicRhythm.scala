@@ -46,9 +46,9 @@ object HarmonicRhythm extends App {
 
   // 32nd notes, demisemiquaver
   // quaver = 60, milliseconds
-  //val demisemiquaver = 1000 / 32
+  val demisemiquaver = 1000 / 32
   // 31 milisecs
-  val demisemiquaver = 1000
+  //val demisemiquaver = 1000
 
   val rhythmIntevals = harmonicSeries.map(number => {
     demisemiquaver * (theHighestNumber.toDouble / number)
@@ -61,25 +61,14 @@ object HarmonicRhythm extends App {
   SuperColliderServer.runServer()
 
 
-  // create the system and actor
   val system = ActorSystem("HarmonicSystem")
   val playActor = system.actorOf(Props[PlayActor], name = "playActor")
   println("playActor="+playActor)
-//  val a = playActor.path
-//  val b = a.name
-
-  //val myActor = system.actorOf(Props[SchedulingActor], name = "myActor")
-
-  //val a = tones.toList.map((a, b) => {a})
 
 
   // Let's get started
   val toneActors = tones.zipWithIndex.map{case ((pitch, interval), index) => {
     val number = index + 1
-
-    //val schedulingActor = system.actorOf(Props[SchedulingActor])
-    //created schedulingActor=Actor[akka://HarmonicSystem/user/$a#675789708]
-    //created schedulingActor=Actor[akka://HarmonicSystem/user/$b#-950137678]
 
     val schedulingActor = system.actorOf(Props[SchedulingActor], "schedulingActor"+ number)
 
@@ -108,8 +97,12 @@ class SchedulingActor extends Actor {
       import system.dispatcher
 
 
+      // a single player
       val playActor = system.actorSelection("user/playActor")
       //val playActor = system.actorSelection("akka://HarmonicSystem/user/playActor")
+
+      //val playActor = system.actorOf(Props[PlayActor])
+
       println("called playActor=" + playActor)
 
       import scala.concurrent.duration._
