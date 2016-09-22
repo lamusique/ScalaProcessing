@@ -25,33 +25,13 @@ object HarmonicFlows extends App {
 
 
   val theHighestNumber = 16
-  //val theHighestNumber = 2
   val harmonicSeries = (1 to theHighestNumber)
 
   val pitches = harmonicSeries map (C3 * _)
 
-  @tailrec
-  def gcd(a: Int, b: Int):Int = if (b == 0) a.abs else gcd(b, a % b)
-  def lcm(a: Int, b: Int):Int = (a * b).abs / gcd(a,b)
-  def gcd(integers: List[Int]):Int = integers.reduce((l, r) => gcd(l, r))
-  def lcm(integers: List[Int]):Int = integers.reduce((l, r) => lcm(l, r))
 
-  println(lcm(harmonicSeries.toList))
+  println(Utility.lcm(harmonicSeries.toList))
   // 720720
-
-  // 32nd notes, demisemiquaver
-  // quaver = 60, milliseconds
-  val demisemiquaver = 1000 / 32
-  // 31 milisecs
-  //val demisemiquaver = 1000
-
-  val rhythmIntevals = harmonicSeries.map(number => {
-    demisemiquaver * (theHighestNumber.toDouble / number)
-  })
-
-  val tones = pitches zip rhythmIntevals
-
-
 
   SuperColliderServer.runServer()
 
@@ -61,7 +41,7 @@ object HarmonicFlows extends App {
 
 
   // Let's get started
-  val toneActors = tones.zipWithIndex.map{case ((pitch, interval), index) => {
+  val toneActors = pitches.zipWithIndex.map{case (pitch, index) => {
     val number = index + 1
 
     //val schedulingActor = system.actorOf(Props[SchedulingActor])
@@ -82,6 +62,13 @@ object HarmonicFlows extends App {
 }
 
 object Utility {
+
+  @tailrec
+  def gcd(a: Int, b: Int):Int = if (b == 0) a.abs else gcd(b, a % b)
+  def lcm(a: Int, b: Int):Int = (a * b).abs / gcd(a,b)
+  def gcd(integers: List[Int]):Int = integers.reduce((l, r) => gcd(l, r))
+  def lcm(integers: List[Int]):Int = integers.reduce((l, r) => lcm(l, r))
+
 
   val random = new Random()
   def random(max:Double):Double = random.nextDouble() * max
@@ -255,7 +242,6 @@ object SuperColliderServer extends LazyLogging {
     val lagAmp = Lag.kr(amp, amplag)
     val lagPan = Lag.kr(pan, panLag)
 
-    //val src = SinOsc.ar(lagFreq).madd(lagAmp, 0)
     val src = SinOsc.ar(lagFreq, phase).madd(lagAmp, 0)
     val pan2 = Pan2.ar(src, lagPan)
     Out.ar(0, pan2)
@@ -273,9 +259,6 @@ object SuperColliderServer extends LazyLogging {
     val runningCodes = (s: Server) => {
 
       sineLagSynth.recv(s)
-
-//      val a = Synth.play (sineLagSynth.name, Seq ("freq" -> 440) )
-//      a.set()
 
       val defaultServer = Server.default
       logger.info("defaultServer=" + defaultServer + " : " + sourcecode.Line.generate)
