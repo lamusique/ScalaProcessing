@@ -1,6 +1,7 @@
 package com.nekopiano.scala.processing.sandbox.sound.harmonic
 
-import akka.actor.{Actor, ActorSystem, Props}
+import akka.actor.Actor.Receive
+import akka.actor.{Actor, ActorRef, ActorSystem, Props}
 import com.typesafe.scalalogging.LazyLogging
 import de.sciss.synth.Synth
 
@@ -24,41 +25,15 @@ object HarmonicFlows extends App {
   val C3 = transpose(A4, -9) / 2
 
 
-  val theHighestNumber = 16
-  //val theHighestNumber = 6
-  val harmonicSeries = (1 to theHighestNumber)
-
-  val pitches = harmonicSeries map (C3 * _)
-
-
-  println(Utility.lcm(harmonicSeries.toList))
-  // 720720
-
   SuperColliderServer.runServer()
 
 
   // create the system and actor
   val system = ActorSystem("HarmonicSystem")
 
-
+  val groupActor = system.actorOf(Props[GroupActor], "groupActor")
   // Let's get started
-  val toneActors = pitches.zipWithIndex.map{case (pitch, index) => {
-    val number = index + 1
-
-    //val schedulingActor = system.actorOf(Props[SchedulingActor])
-    //created schedulingActor=Actor[akka://HarmonicSystem/user/$a#675789708]
-    //created schedulingActor=Actor[akka://HarmonicSystem/user/$b#-950137678]
-
-    val toneActor = system.actorOf(Props[ToneActor], "toneActor"+ number)
-
-    println("created toneActor=" + toneActor)
-    val amp = 0.3 / number
-    val phase = Utility.random(0, 2 * math.Pi)
-
-    toneActor ! ToneMessage(number, pitch, phase, amp, System.currentTimeMillis())
-    toneActor
-  }}
-
+  groupActor ! GroupMessage(C3, 16)
 
 }
 
@@ -81,6 +56,66 @@ object Utility {
 }
 
 
+import scala.concurrent.duration._
+import Utility._
+
+case class GroupMessage(fundamental:Double, series:Int)
+case class GroupChangeMessage(freqDiffRate:Double, freqLag:Double)
+class GroupActor extends Actor {
+
+  val system = context.system
+  import system.dispatcher
+
+  val toneActorsPromise = Promise[Seq[ActorRef]]
+  lazy val toneActors = Await.result(toneActorsPromise.future, 5 seconds)
+
+  override def receive: Receive = {
+    case msg:GroupMessage => {
+
+      val harmonicSeries = (1 to msg.series)
+      val pitches = harmonicSeries map (msg.fundamental * _)
+      println("LCM = " + Utility.lcm(harmonicSeries.toList))
+      // If C3, LCM is 720720.
+
+      // Let's get started
+      val toneActors = pitches.zipWithIndex.map{case (pitch, index) => {
+        val number = index + 1
+
+        //val schedulingActor = system.actorOf(Props[SchedulingActor])
+        //created schedulingActor=Actor[akka://HarmonicSystem/user/$a#675789708]
+        //created schedulingActor=Actor[akka://HarmonicSystem/user/$b#-950137678]
+
+        val toneActor = system.actorOf(Props[ToneActor], "toneActor"+ number)
+
+        println("created toneActor=" + toneActor)
+        val amp = 0.3 / number
+        val phase = Utility.random(0, 2 * math.Pi)
+
+        toneActor ! ToneMessage(number, pitch, phase, amp, System.currentTimeMillis())
+        toneActor
+      }}
+      toneActorsPromise.success(toneActors)
+
+      change()
+    }
+    case msg:GroupChangeMessage => {
+      toneActors.foreach(toneActor => {
+        toneActor ! msg
+      })
+      change()
+    }
+  }
+  def change() {
+    val delay = random(20)
+    val freqDiffRate = math.pow(2, random.nextGaussian / 2)
+    val freqLag = random(0, 5)
+    val groupChange = GroupChangeMessage(freqDiffRate, freqLag)
+    val cancellable = system.scheduler.scheduleOnce(delay seconds, self, groupChange)
+    println(self + " group changes " + groupChange + " after " + delay + " seconds.")
+  }
+}
+
+
 case class ToneMessage(number:Int, freq:Double, phase:Double, amp:Double, currentTimeMillis:Long)
 case class ToneChangeMessage(number:Int, freq:Option[Double], amp:Option[Double], pan:Option[Double], freqLag:Option[Double], ampLag:Option[Double], panLag:Option[Double], currentTimeMillis:Long)
 class ToneActor extends Actor {
@@ -88,8 +123,6 @@ class ToneActor extends Actor {
   import de.sciss.synth._
   import Ops._
   import ugen._
-
-  import scala.concurrent.duration._
 
   val system = context.system
   import system.dispatcher
@@ -122,9 +155,11 @@ class ToneActor extends Actor {
       sender ! this + " started."
     }
     case msg:ToneChangeMessage => {
-
-
       changeTone(msg)
+    }
+    case msg:GroupChangeMessage => {
+      val targetFreq = freq * msg.freqDiffRate
+      changeTone(ToneChangeMessage(number, Option(targetFreq), None, None, Option(msg.freqLag), None, None, System.currentTimeMillis()))
     }
     //case a:Any => "This may be an object proper. a=" + a
     case _ => println("This is unexpected.")
@@ -210,7 +245,7 @@ class ToneActor extends Actor {
     freq = freq * freqDiffRate
     freq = freq match {
       case evalFreq:Double if (evalFreq < 55) => freq + 55
-      case evalFreq:Double if (evalFreq > 2200) => freq - 1100
+      case evalFreq:Double if (evalFreq > 4400) => freq - 1100
       case evalFreq:Double => evalFreq
     }
     freqLag = random(20)
@@ -222,8 +257,8 @@ class ToneActor extends Actor {
     val sendingAmp = if (plays) amp else 0
     val sendingAmpLag = if (plays) ampLag else 0.4
 
-    val change = ToneChangeMessage(number, Option(freq), Option(amp), Option(pan), Option(freqLag), Option(ampLag), Option(panLag), System.currentTimeMillis())
-    //val change = ToneChangeMessage(number, Option(freq), Option(sendingAmp), Option(pan), Option(freqLag), Option(sendingAmpLag), Option(panLag), System.currentTimeMillis())
+    //val change = ToneChangeMessage(number, Option(freq), Option(amp), Option(pan), Option(freqLag), Option(ampLag), Option(panLag), System.currentTimeMillis())
+    val change = ToneChangeMessage(number, Option(freq), Option(sendingAmp), Option(pan), Option(freqLag), Option(sendingAmpLag), Option(panLag), System.currentTimeMillis())
     //val change = ToneChangeMessage(number, None, Option(amp), Option(pan), Option(freqLag), Option(ampLag), Option(panLag), System.currentTimeMillis())
 
     println(self + " changes " + change + " after " + delay + " seconds.")
