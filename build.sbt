@@ -38,7 +38,7 @@ libraryDependencies += "org.apache.xmlgraphics" % "batik-dom" % "1.8"
 //libraryDependencies += "org.processing" % "processing-complete" % "3.1.1" withSources()
 
 // Sound
-libraryDependencies += "de.sciss" %% "scalacollider" % "1.18.1"
+libraryDependencies += "de.sciss" %% "scalacollider" % "1.20.1"
 
 
 // CSV
