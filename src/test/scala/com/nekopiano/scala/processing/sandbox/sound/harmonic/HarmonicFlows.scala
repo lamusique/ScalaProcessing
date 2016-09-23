@@ -25,6 +25,7 @@ object HarmonicFlows extends App {
 
 
   val theHighestNumber = 16
+  //val theHighestNumber = 6
   val harmonicSeries = (1 to theHighestNumber)
 
   val pitches = harmonicSeries map (C3 * _)
@@ -103,6 +104,7 @@ class ToneActor extends Actor {
   var ampLag = 0.0
   var pan = 0.0
   var panLag = 0.0
+  var plays = true
 
   def receive = {
     case msg:ToneMessage => {
@@ -114,8 +116,6 @@ class ToneActor extends Actor {
       println(self + " plays " + msg)
 
       //sender ! "Done"
-
-      println(synth.productIterator.mkString("\n"))
 
       changeTone(ToneChangeMessage(number, Option(freq), Option(amp), Option(0), Option(0),Option(0),Option(0),System.currentTimeMillis()))
 
@@ -188,28 +188,46 @@ class ToneActor extends Actor {
 
     val delay = random(20)
 
+    plays = {
+      val sample = random(1, 3)
+      println("sample=" + sample)
+      sample > 2
+    }
+
     val ampDiff = random(-0.2, 0.2)
     amp = amp + ampDiff
-    if (amp < 0 ) amp = 0
-    if (amp > 0.2 ) amp = 0.2
+    amp = amp match {
+      case evalAmp:Double if (evalAmp < 0.0) => 0
+      case evalAmp:Double if (evalAmp > 0.2) => 0.2
+      case evalAmp:Double => evalAmp
+    }
     ampLag = random(20)
 
-    val freqDiff = random(-50, 50)
-    //val freqDiff = random(-200, 200)
-    freq = freq + freqDiff
+    //val freqDiff = random(-50, 50)
+    //val freqDiffRate = random(0.75, 1.5)
+    val freqDiffRate = math.pow(2, random.nextGaussian / 2)
+    println(self + " freqDiffRate="+freqDiffRate)
+    freq = freq * freqDiffRate
+    freq = freq match {
+      case evalFreq:Double if (evalFreq < 55) => freq + 55
+      case evalFreq:Double if (evalFreq > 2200) => freq - 1100
+      case evalFreq:Double => evalFreq
+    }
     freqLag = random(20)
 
     pan = random(-1, 1)
     panLag = random(20)
 
 
-
+    val sendingAmp = if (plays) amp else 0
+    val sendingAmpLag = if (plays) ampLag else 0.4
 
     val change = ToneChangeMessage(number, Option(freq), Option(amp), Option(pan), Option(freqLag), Option(ampLag), Option(panLag), System.currentTimeMillis())
+    //val change = ToneChangeMessage(number, Option(freq), Option(sendingAmp), Option(pan), Option(freqLag), Option(sendingAmpLag), Option(panLag), System.currentTimeMillis())
     //val change = ToneChangeMessage(number, None, Option(amp), Option(pan), Option(freqLag), Option(ampLag), Option(panLag), System.currentTimeMillis())
 
-    val cancellable = context.system.scheduler.scheduleOnce(delay seconds, self, change)
     println(self + " changes " + change + " after " + delay + " seconds.")
+    val cancellable = context.system.scheduler.scheduleOnce(delay seconds, self, change)
   }
 
 }
