@@ -66,13 +66,16 @@ class Boid (val x: Float, val y: Float)(implicit val sp5:TwoDimensionalPApp) {
   // This is a new PVector method not yet implemented in JS
   // velocity = PVector.random2D();
   // Leaving the code temporarily this way so that this example runs in JS
-  val angle: Float = random(TWO_PI)
   var location: ScalaPVector = ScalaPVector(x, y)
-  var velocity: ScalaPVector = ScalaPVector(cos(angle), sin(angle))
+  var velocity: ScalaPVector = {
+    val angle: Float = random(TWO_PI)
+    ScalaPVector(cos(angle), sin(angle))}
   var acceleration: ScalaPVector = ScalaPVector(0, 0)
   var r: Float = 2.0f
   var maxforce: Float = 0.03f // Maximum steering force
   var maxspeed: Float = 2.0f // Maximum speed
+
+
   def run(boids:Seq[Boid]) {
     flock(boids)
     update()
@@ -83,18 +86,19 @@ class Boid (val x: Float, val y: Float)(implicit val sp5:TwoDimensionalPApp) {
 
   def applyForce(force: ScalaPVector) {
     // We could add mass here if we want A = F / M
-    acceleration.add(force)
+    this.acceleration = this.acceleration.add(force)
   }
 
   // We accumulate a new acceleration each time based on three rules
   def flock(boids:Seq[Boid]) {
-    val sep: ScalaPVector = separate(boids) // Separation
-    val ali: ScalaPVector = align(boids) // Alignment
-    val coh: ScalaPVector = cohesion(boids) // Cohesion
     // Arbitrarily weight these forces
-    sep.mult(1.5f)
-    ali.mult(1.0f)
-    coh.mult(1.0f)
+    // Separation
+    val sep = separate(boids).mult(1.5f)
+    // Alignment
+    val ali = align(boids).mult(1.0f)
+    // Cohesion
+    val coh = cohesion(boids).mult(1.0f)
+
     // Add the force vectors to acceleration
     applyForce(sep)
     applyForce(ali)
@@ -105,8 +109,8 @@ class Boid (val x: Float, val y: Float)(implicit val sp5:TwoDimensionalPApp) {
   def update() {
     // Update velocity
     // Limit speed
-    val modVel = velocity.add(acceleration).limit(maxspeed)
-    this.location = this.location.add(modVel)
+    this.velocity = this.velocity.add(acceleration).limit(maxspeed)
+    this.location = this.location.add(this.velocity)
     // Reset accelertion to 0 each cycle
     this.acceleration = this.acceleration.mult(0)
   }
@@ -114,17 +118,17 @@ class Boid (val x: Float, val y: Float)(implicit val sp5:TwoDimensionalPApp) {
   // A method that calculates and applies a steering force towards a target
   // STEER = DESIRED MINUS VELOCITY
   def seek(target: ScalaPVector): ScalaPVector = {
+
     // A vector pointing from the location to the target
-    val desired = target.sub(location)
     // Scale to maximum speed
-    desired.normalize
-    desired.mult(maxspeed)
+    val desired = target.sub(location).normalize.mult(maxspeed)
+
     // Above two lines of code below could be condensed with ScalaPVector setMag() method
     // Not using this method until Processing.js catches up
     // desired.setMag(maxspeed);
     // Steering = Desired minus Velocity
-    val steer = desired.sub(velocity)
-    steer.limit(maxforce) // Limit to maximum steering force
+    // Limit to maximum steering force
+    val steer = desired.sub(velocity).limit(maxforce)
     steer
   }
 
@@ -179,7 +183,7 @@ class Boid (val x: Float, val y: Float)(implicit val sp5:TwoDimensionalPApp) {
       }
     }
     // Average -- divide by how many
-    if (count > 0) steer.div(count.toFloat)
+    if (count > 0) steer = steer.div(count.toFloat)
     // As long as the vector is greater than 0
     if (steer.mag > 0) {
       // First two lines of code below could be condensed with ScalaPVector setMag() method
@@ -195,24 +199,23 @@ class Boid (val x: Float, val y: Float)(implicit val sp5:TwoDimensionalPApp) {
   // For every nearby boid in the system, calculate the average velocity
   def align(boids: Seq[Boid]): ScalaPVector = {
     val neighbordist: Float = 50
-    val sum: ScalaPVector = ScalaPVector(0, 0)
+    var sum: ScalaPVector = ScalaPVector(0, 0)
     var count: Int = 0
     import scala.collection.JavaConversions._
     for (other <- boids) {
       val d = location.dist(other.location)
       if ((d > 0) && (d < neighbordist)) {
-        sum.add(other.velocity)
+        sum = sum.add(other.velocity)
         count += 1
       }
     }
     if (count > 0) {
-      sum.div(count.toFloat)
+      sum = sum.div(count.toFloat).normalize.mult(maxspeed)
       // First two lines of code below could be condensed with ScalaPVector setMag() method
       // Not using this method until Processing.js catches up
       // sum.setMag(maxspeed);
       // Implement Reynolds: Steering = Desired - Velocity
-      sum.normalize
-      sum.mult(maxspeed)
+
       val steer = sum.sub(velocity).limit(maxforce)
       steer
     }
@@ -223,18 +226,19 @@ class Boid (val x: Float, val y: Float)(implicit val sp5:TwoDimensionalPApp) {
   // For the average location (i.e. center) of all nearby boids, calculate steering vector towards that location
   def cohesion(boids: Seq[Boid]): ScalaPVector = {
     val neighbordist: Float = 50
-    val sum: ScalaPVector = ScalaPVector(0, 0) // Start with empty vector to accumulate all locations
+    // Start with empty vector to accumulate all locations
+    var sum = ScalaPVector(0, 0)
     var count: Int = 0
     import scala.collection.JavaConversions._
     for (other <- boids) {
       val d = location.dist(other.location)
       if ((d > 0) && (d < neighbordist)) {
-        sum.add(other.location) // Add location
+        sum = sum.add(other.location) // Add location
         count += 1
       }
     }
     if (count > 0) {
-      sum.div(count)
+      sum = sum.div(count)
       seek(sum) // Steer towards the location
     }
     else ScalaPVector(0, 0)
