@@ -8,6 +8,11 @@ import processing.core.PApplet
 trait TwoDimensionalPApp extends ScalaPApp with ScalaPConstants {
 
   // ================
+  // Coordination in 2D
+  // ================
+  def translate(vector: ScalaPVector):Unit = translate(vector.x, vector.y)
+
+  // ================
   // Drawing
   // ================
 
