@@ -38,8 +38,17 @@ case class ScalaPVector(val x:Float, val y:Float, val z:Float = 0) {
   // ================
   def angleWith(vector: ScalaPVector):Float = PVector.angleBetween(this.pVector, vector.pVector)
   def lerp(anotherVector: ScalaPVector, amount:Float = 0.5f):ScalaPVector = ScalaPVector(PVector.lerp(this.pVector, anotherVector.pVector, amount))
-  def distance(anotherVector: ScalaPVector):Float = this.pVector.dist(anotherVector.pVector)
-
+  def dist(anotherVector: ScalaPVector):Float = this.pVector.dist(anotherVector.pVector)
+  def mult(n:Float) = ScalaPVector(this.pVector.mult(n:Float))
+  def div(n:Float) = ScalaPVector(pVector.div(n:Float))
+  def sub(v:ScalaPVector) = {
+    val substracted = this.pVector.sub(v.pVector)
+    ScalaPVector(substracted)
+  }
+  def limit(max:Float) = ScalaPVector(this.pVector.limit(max:Float))
+  def normalize = ScalaPVector(this.pVector.normalize())
+  def mag = this.pVector.mag()
+  def heading = this.pVector.heading()
 }
 object ScalaPVector {
   val origin = ScalaPVector(0, 0, 0)

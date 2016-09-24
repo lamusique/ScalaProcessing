@@ -70,7 +70,7 @@ trait ScalaPApp extends PApplet with ScalaPConstants {
   // Drawing
   // ================
   def dottedLine(start: ScalaPVector, end:ScalaPVector, interval:Int = 8, stroke:Int = 2): Unit = {
-    val distance = start.distance(end)
+    val distance = start.dist(end)
     val intervals = distance / interval
 
     usingStyle {
@@ -84,7 +84,7 @@ trait ScalaPApp extends PApplet with ScalaPConstants {
 
   }
   def dashedLine(start: ScalaPVector, end:ScalaPVector, interval:Int = 8, stroke:Int = 2): Unit = {
-    val distance = start.distance(end)
+    val distance = start.dist(end)
     val intervals = distance / interval
 
     val pairs = (1 to intervals.toInt).grouped(2).filter(_.size > 1)
