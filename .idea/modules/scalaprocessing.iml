@@ -24,6 +24,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="SBT: org.jogamp.gluegen:gluegen-rt:2.3.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.processing:pdf:3.1.2:jar" level="project" />
+    <orderEntry type="library" name="SBT: org.processing:core:3.1.2:jar" level="project" />
     <orderEntry type="library" name="SBT: de.sciss:scalacolliderugens-core_2.11:1.15.3:jar" level="project" />
     <orderEntry type="library" name="SBT: de.sciss:scalacolliderugens-api_2.11:1.15.3:jar" level="project" />
     <orderEntry type="library" name="SBT: de.sciss:scalacollider_2.11:1.20.1:jar" level="project" />
@@ -49,7 +51,6 @@
     <orderEntry type="library" scope="TEST" name="SBT: org.scalaz:scalaz-core_2.11:7.2.3:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="SBT: org.scalaz:scalaz-concurrent_2.11:7.2.3:jar" level="project" />
     <orderEntry type="library" name="SBT: com.lowagie:itext:4.2.1:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.processing:pdf:3.1.1:jar" level="project" />
     <orderEntry type="library" name="SBT: com.itextpdf:itextpdf:5.5.6:jar" level="project" />
     <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all-main:2.3.2:jar" level="project" />
     <orderEntry type="library" name="SBT: org.jogamp.jogl:jogl-all:2.3.2:natives-windows-i586:jar" level="project" />
@@ -117,7 +118,6 @@
     <orderEntry type="library" name="SBT: org.jogamp.jogl:newt:2.3.2:natives-windows-i586:jar" level="project" />
     <orderEntry type="library" name="SBT: org.jogamp.jogl:newt:2.3.2:ogl:jar" level="project" />
     <orderEntry type="library" name="SBT: org.jogamp.jogl:newt-main:2.3.2:jar" level="project" />
-    <orderEntry type="library" name="SBT: org.processing:core:3.1.1:jar" level="project" />
     <orderEntry type="library" name="SBT: de.sciss:model_2.11:0.3.2:jar" level="project" />
     <orderEntry type="library" name="SBT: de.sciss:processor_2.11:0.4.0:jar" level="project" />
     <orderEntry type="library" name="SBT: de.sciss:scalaaudiofile_2.11:1.4.5:jar" level="project" />
