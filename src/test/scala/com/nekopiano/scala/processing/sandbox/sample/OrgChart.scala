@@ -14,6 +14,7 @@ class OrgChartApp extends ThreeDimensionalPApp {
   var targetRotateVector = ScalaPVector.origin
 
   var record = false
+  var count = 1
 
   override def settings(): Unit = {
     size(800, 600, P3D)
@@ -39,8 +40,10 @@ class OrgChartApp extends ThreeDimensionalPApp {
   override def draw(): Unit = {
 
     if (record) {
-      beginRaw(PDF, "orgchart-output.pdf");
-      //beginRecord(PDF, "output.pdf");
+      val classSimpleName = this.getClass.getSimpleName
+      val countString = "%07d".format(count)
+      beginRaw(PDF, classSimpleName + "-" + countString + ".pdf")
+      //beginRecord(PDF, "output.pdf")
     }
 
     lerpedTranslateVector = lerpedTranslateVector.lerp(targetTranslateVector, .075f)
