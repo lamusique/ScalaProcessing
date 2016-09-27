@@ -10,3 +10,6 @@ trait CsvH2Driver extends H2Driver {
 }
 object CsvH2Driver extends CsvH2Driver {
 }
+
+
+object H2CsvJodaSupport extends com.github.tototoshi.slick.GenericJodaSupport(CsvH2Driver)
