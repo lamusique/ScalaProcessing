@@ -34,28 +34,29 @@
     </appender>
 
 
-    <appender name="FILE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- More than WARN (WARN and ERROR) are logged-->
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>WARN</level>
-        </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--<fileNamePattern>/var/log/info-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>-->
-            <fileNamePattern>ScalaProcessing-%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
-            <!--
-                 - Everyday it rolls over, to create new log file.
-                 - Rolling over depends on fileNamePattern
-                 - %i in fileNamePattern indicates what number of the files. %i starts from 0.
-            -->
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <!-- It rolls over if over 100 MB. -->
-                <maxFileSize>100MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{yyyy/MM/dd HH:mm:ss} | level:%-5coloredLevel| logger[%thread]:%logger | message:%msg%n</pattern>
-        </encoder>
-    </appender>
+    <!--<appender name="FILE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--&lt;!&ndash; More than WARN (WARN and ERROR) are logged&ndash;&gt;-->
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+            <!--<level>WARN</level>-->
+        <!--</filter>-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+            <!--&lt;!&ndash;<fileNamePattern>/var/log/info-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>&ndash;&gt;-->
+            <!--<fileNamePattern>ScalaProcessing-%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>-->
+            <!--&lt;!&ndash;-->
+                  <!-- - Everyday it rolls over, to create new log file.-->
+                  <!-- - Rolling over depends on fileNamePattern-->
+                  <!-- - %i in fileNamePattern indicates what number of the files. %i starts from 0.-->
+            <!--&ndash;&gt;-->
+            <!--<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+                <!--&lt;!&ndash; It rolls over if over 100 MB. &ndash;&gt;-->
+                <!--<maxFileSize>100MB</maxFileSize>-->
+            <!--</timeBasedFileNamingAndTriggeringPolicy>-->
+        <!--</rollingPolicy>-->
+        <!--<encoder>-->
+            <!--<pattern>%d{yyyy/MM/dd HH:mm:ss} | level:%-5coloredLevel| logger[%thread]:%logger | message:%msg%n</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
 
     <!-- Setting for asynchronous logging -->
     <appender name="ASYNC_CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
