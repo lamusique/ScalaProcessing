@@ -1,13 +1,14 @@
 package com.nekopiano.scala.processing.sandbox.sample
 
 import com.nekopiano.scala.processing._
+import com.typesafe.scalalogging.LazyLogging
 import processing.core.PConstants
 import processing.event.MouseEvent
 
 /**
  * Created on 15/08/2016.
  */
-class GrabbingBApp extends ThreeDimensionalCameraPApp {
+class GrabbingBApp extends ThreeDimensionalCameraPApp with LazyLogging {
 
   import com.nekopiano.scala.processing.Angles._
 
@@ -18,6 +19,14 @@ class GrabbingBApp extends ThreeDimensionalCameraPApp {
   lazy val boxes =
     1 to 200 map(number => {
       new ThreeDBox(ScalaPVector(width/2.0f, height/2.0f, 400 + -25 * number))
+
+//      float val = randomGaussian();
+//
+//      float sd = 60;                  // Define a standard deviation
+//      float mean = width/2;           // Define a mean value (middle of the screen along the x-axis)
+//      float x = ( val * sd ) + mean;  // Scale the gaussian random number by standard deviation and mean
+//
+      //new ThreeDBox(ScalaPVector(random(width), random(height), random(-4000, 0)))
     })
 
   var hoveredBoxes = Seq.empty[ThreeDBox]
@@ -40,6 +49,7 @@ class GrabbingBApp extends ThreeDimensionalCameraPApp {
 
     usingMatrix {
       val mouse = getMouseVector()
+      superposingMap.put("mouse", mouse.toString)
 
       // make the mouse position the rotating center
       translate(mouse)
@@ -49,9 +59,7 @@ class GrabbingBApp extends ThreeDimensionalCameraPApp {
       // TODO adjust x more
       val angleX = Angles.atan2(width/2f - mouseX, cameraView.eye.z)
       //val angleX = Angles.atan2((width/2f - mouseX) * sqrt((mouseY - height/2f) / (height/2f)), cameraView.eye.z)
-      angles = Angles(angleX, angleY)
-
-      applyKeyPressedAngles()
+      val angles = Angles(angleX, angleY)
 
       rotateX(angles.y)
       rotateY(angles.x)
@@ -68,34 +76,37 @@ class GrabbingBApp extends ThreeDimensionalCameraPApp {
     hoveredBoxes foreach(_.display(color(255, 0, 0)))
     lockedBoxes foreach(_.display(color(255, 100, 0)))
 
+
+
   }
 
-  var angles = new Angles
-  var angleEventSourcing = new Angles
-  def applyKeyPressedAngles(): Unit = {
-    if (angleEventSourcing != Angles.origin) {
-      angles = angles.add(angleEventSourcing)
-    }
+  val superposingMap = scala.collection.mutable.Map.empty[String, String]
+  val superposingNames = Seq("mouse", "hoveredBoxes", "lockedBoxes")
+  locally {
+    superposingNames.foreach(superposingMap.put(_, null))
+  }
+
+  override def superpose() {
+
+    val split = 3
+    val spacing = 10
+
+    val splitWidth = width / split.toFloat
+
+    val splitXes = (1 to split) map(_ * splitWidth)
+
+
+    superposingNames.zipWithIndex.map{case (name, i) =>{
+      text(name + "=" + superposingMap(name), ScalaPVector(spacing + splitWidth * i, height - spacing, 0))
+    }}
   }
 
   override def keyPressed: Unit = {
     super.keyPressed()
 
-    if (key == CODED) {
-      angleEventSourcing = keyCode match {
-        case UP => angleEventSourcing.addY(radians(0.5f))
-        case DOWN => angleEventSourcing.addY(radians(-0.5f))
-        case LEFT => angleEventSourcing.addX(radians(-0.5f))
-        case RIGHT => angleEventSourcing.addX(radians(0.5f))
-        case _ => angleEventSourcing // do nothing
-      }
-    }
-
   }
   override def keyReleased: Unit = {
     super.keyPressed()
-
-    if (key == CODED) angleEventSourcing = Angles.origin
   }
 
 
