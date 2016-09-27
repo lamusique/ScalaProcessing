@@ -41,6 +41,7 @@ object CsvSlick extends App {
       rows
         //.filter(row => (row.dob == "19950822"))
         //.filter {case Row(_,dob,_) => dob == new Date}
+        //.filter(row => (row.dob == new Date))
         .result.map(println)
 
     )), Duration.Inf)
