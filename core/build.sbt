@@ -1,4 +1,4 @@
-name := "ScalaProcessing"
+name := "scala-processing"
 
 version := "1.0"
 
