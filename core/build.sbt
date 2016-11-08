@@ -37,19 +37,6 @@ libraryDependencies += "org.apache.xmlgraphics" % "batik-dom" % "1.8"
 
 //libraryDependencies += "org.processing" % "processing-complete" % "3.1.1" withSources()
 
-// Sound
-libraryDependencies += "de.sciss" %% "scalacollider" % "1.20.1"
-
-
-// CSV
-libraryDependencies += "com.h2database" % "h2" % "1.4.192"
-libraryDependencies += "com.typesafe.slick" %% "slick" % "3.1.1"
-
-libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.12.0"
-libraryDependencies ++= Seq(
-  "com.github.tototoshi" %% "slick-joda-mapper" % "2.2.0",
-  "org.joda" % "joda-convert" % "1.7"
-)
 
 // Logging
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.4.0"
