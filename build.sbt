@@ -23,11 +23,13 @@ lazy val samples = (project in file("samples")).
   settings(commonSettings: _*).
   settings(
     // other settings
-  )
+  ).
+  dependsOn(core)
 
 lazy val sandbox = (project in file("sandbox")).
   settings(commonSettings: _*).
   settings(
     // other settings
-  )
+  ).
+  dependsOn(core)
 

@@ -1,14 +1,15 @@
-name := "scala-processing-sample"
+name := "scala-processing-samples"
 
 version := "1.0"
 
 scalaVersion := "2.11.8"
 
 
-lazy val core = (project in file("../core"))
-
-lazy val samples = (project in file(".")).
-  dependsOn(core)
+//lazy val core = RootProject(file("../core"))
+////lazy val core = ProjectRef(file("../core"), "core")
+//
+//lazy val samples = (project in file(".")).
+//  dependsOn(core)
 
 
 libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.11.8"
