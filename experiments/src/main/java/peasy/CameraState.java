@@ -18,12 +18,12 @@
  */
 package peasy;
 
-import java.io.Serializable;
-
 import peasy.org.apache.commons.math.geometry.Rotation;
 import peasy.org.apache.commons.math.geometry.Vector3D;
 import processing.core.PApplet;
 import processing.core.PGraphics;
+
+import java.io.Serializable;
 
 public class CameraState implements Serializable {
 	private static final long serialVersionUID = 1L;

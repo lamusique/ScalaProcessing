@@ -1,6 +1,6 @@
 package com.nekopiano.scala.processing.sandbox.poc.colour
 
-import com.nekopiano.scala.processing.{CameraMixin, ThreeDimensionalCameraPApp, ThreeDimensionalPApp}
+import com.nekopiano.scala.processing.{CameraMixin, ThreeDimensionalPApp}
 import processing.core.PApplet
 
 import scala.concurrent.{Await, Promise}
