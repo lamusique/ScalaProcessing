@@ -3,6 +3,7 @@ package com.nekopiano.scala.processing
 /**
  * Created on 2015/11/23.
  */
+@deprecated("Extend ScalaPApp or its child.")
 class ScalaProcessingSkeleton extends ScalaPApplet {
 
   override def settings: Unit = {
@@ -27,6 +28,7 @@ class ScalaProcessingSkeleton extends ScalaPApplet {
   }
 
 }
+@deprecated("Extend ScalaPAppInstanceCompanion.")
 object ScalaProcessingSkeleton {
   val BOOTING_CLASS_NAME = this.getClass.getName.dropRight(1)
   def main(args: Array[String]) {
