@@ -1,17 +1,41 @@
-name := "ScalaProcessing"
+name := "scala-processing-root"
 
-version := "1.0"
+lazy val commonSettings = Seq(
+  organization := "com.nekopiano.scala",
+  version := "0.1.0",
+  scalaVersion := "2.11.8"
+)
 
-scalaVersion := "2.11.7"
+lazy val root = (project in file(".")).
+  settings(commonSettings: _*).
+  settings(
+    // other settings
+  ).
+  aggregate(core, experiments, samples, sandbox)
 
-// http://mvnrepository.com/artifact/org.processing
-//libraryDependencies += "org.processing" % "processing-complete" % "3.0"
+lazy val core = (project in file("core")).
+  settings(commonSettings: _*).
+  settings(
+    // other settings
+  )
 
-// Checking the POM file
-// https://repo1.maven.org/maven2/org/processing/core/3.0/core-3.0.pom
-libraryDependencies += "org.processing" % "core" % "3.0" withSources()
-libraryDependencies += "org.jogamp.jogl" % "jogl-all" % "2.3.2"
-libraryDependencies += "org.jogamp.jogl" % "jogl-all-main" % "2.3.2"
-libraryDependencies += "org.jogamp.gluegen" % "gluegen-rt" % "2.3.2"
-libraryDependencies += "org.jogamp.gluegen" % "gluegen-rt-main" % "2.3.2"
+lazy val experiments = (project in file("experiments")).
+  settings(commonSettings: _*).
+  settings(
+    // other settings
+  ).
+  dependsOn(core)
 
+lazy val samples = (project in file("samples")).
+  settings(commonSettings: _*).
+  settings(
+    // other settings
+  ).
+  dependsOn(core, experiments)
+
+lazy val sandbox = (project in file("sandbox")).
+  settings(commonSettings: _*).
+  settings(
+    // other settings
+  ).
+  dependsOn(core, experiments)

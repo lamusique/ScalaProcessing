@@ -1,0 +1,71 @@
+<!--<configuration>-->
+<configuration debug="true">
+<!-- debug LogBack proper -->
+
+
+    <!--<property name="ConsoleLevel" value="DEBUG" />-->
+
+    <!-- conversionRule with ColoredLevel can colour log levels according to the pattern conversionWord specifies.
+    　　The class is in Play framework.
+    -->
+    <conversionRule conversionWord="coloredLevel" converterClass="play.api.libs.logback.ColoredLevel" />
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.out</target>
+
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+            <!--<level>${ConsoleLevel}</level>-->
+            <!--<onMatch>ACCEPT</onMatch>-->
+            <!--<onMismatch>DENY</onMismatch>-->
+        <!--</filter>-->
+
+        <encoder>
+            <!--<pattern>time:%d{MM/dd HH:mm:ss} -&#45;&#45; level:%-5level -&#45;&#45; logger[%thread]:%logger -&#45;&#45; message:%msg%n</pattern>-->
+            <!--
+                %d{<format>}: time
+                %-5level: log level [trace, debug, info, warn, error] in five characters space
+                %logger: where logged
+                %thread: which thread logged
+                %msg: message
+                %n: a line break
+            -->
+            <pattern>%d{yyyy/MM/dd HH:mm:ss} | level:%-5coloredLevel| logger[%thread]:%logger | message:%msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!--<appender name="FILE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--&lt;!&ndash; More than WARN (WARN and ERROR) are logged&ndash;&gt;-->
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+            <!--<level>WARN</level>-->
+        <!--</filter>-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+            <!--&lt;!&ndash;<fileNamePattern>/var/log/info-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>&ndash;&gt;-->
+            <!--<fileNamePattern>ScalaProcessing-%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>-->
+            <!--&lt;!&ndash;-->
+                  <!-- - Everyday it rolls over, to create new log file.-->
+                  <!-- - Rolling over depends on fileNamePattern-->
+                  <!-- - %i in fileNamePattern indicates what number of the files. %i starts from 0.-->
+            <!--&ndash;&gt;-->
+            <!--<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+                <!--&lt;!&ndash; It rolls over if over 100 MB. &ndash;&gt;-->
+                <!--<maxFileSize>100MB</maxFileSize>-->
+            <!--</timeBasedFileNamingAndTriggeringPolicy>-->
+        <!--</rollingPolicy>-->
+        <!--<encoder>-->
+            <!--<pattern>%d{yyyy/MM/dd HH:mm:ss} | level:%-5coloredLevel| logger[%thread]:%logger | message:%msg%n</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
+
+    <!-- Setting for asynchronous logging -->
+    <appender name="ASYNC_CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="CONSOLE"/>
+    </appender>
+
+    <!-- <root level="DEBUG"> -->
+    <root level="INFO">
+        <!--<appender-ref ref="ASYNC_CONSOLE"/>-->
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
