@@ -11,6 +11,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/project" />
+            <option value="$PROJECT_DIR$/experiments" />
+            <option value="$PROJECT_DIR$/experiments/project" />
             <option value="$PROJECT_DIR$/project" />
             <option value="$PROJECT_DIR$/samples" />
             <option value="$PROJECT_DIR$/samples/project" />
@@ -18,7 +20,7 @@
             <option value="$PROJECT_DIR$/sandbox/project" />
           </set>
         </option>
-        <option name="sbtVersion" value="0.13.9" />
+        <option name="sbtVersion" value="0.13.13" />
         <option name="useAutoImport" value="true" />
         <option name="useOurOwnAutoImport" value="true" />
       </SbtProjectSettings>
