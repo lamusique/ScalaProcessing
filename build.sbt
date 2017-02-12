@@ -11,7 +11,7 @@ lazy val root = (project in file(".")).
   settings(
     // other settings
   ).
-  aggregate(core, samples, sandbox)
+  aggregate(core, experiments, samples, sandbox)
 
 lazy val core = (project in file("core")).
   settings(commonSettings: _*).
@@ -19,17 +19,23 @@ lazy val core = (project in file("core")).
     // other settings
   )
 
-lazy val samples = (project in file("samples")).
+lazy val experiments = (project in file("experiments")).
   settings(commonSettings: _*).
   settings(
     // other settings
   ).
   dependsOn(core)
+
+lazy val samples = (project in file("samples")).
+  settings(commonSettings: _*).
+  settings(
+    // other settings
+  ).
+  dependsOn(core, experiments)
 
 lazy val sandbox = (project in file("sandbox")).
   settings(commonSettings: _*).
   settings(
     // other settings
   ).
-  dependsOn(core)
-
+  dependsOn(core, experiments)
